@@ -4,15 +4,16 @@
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AssemblyName>BoundedRationality</AssemblyName>
-		<CodeAnalysisTreatWarningsAsErrors>true</CodeAnalysisTreatWarningsAsErrors>
-		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5;v1.6</Configurations>
+		<Configurations>v1.0;v1.1;v1.2;v1.3;v1.4;v1.5;v1.6;v1.7</Configurations>
 		<Copyright>Travis Martin 2026</Copyright>
 		<DebugType>none</DebugType>
 		<Description>A RimWorld mod that hides pawns' traits until you get to know them.</Description>
 		<Deterministic>true</Deterministic>
 		<EnableNETAnalyzers>true</EnableNETAnalyzers>
 		<EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+		<GenerateDependencyFile>false</GenerateDependencyFile>
 		<IsPublishable>false</IsPublishable>
+		<Nullable>enable</Nullable>
 		<Optimize>true</Optimize>
 		<PackageId>Lakuna.BoundedRationality</PackageId>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -21,6 +22,7 @@
 		<RepositoryUrl>https://github.com/Lakuna/RimWorld-Bounded-Rationality.git</RepositoryUrl>
 		<RootNamespace>Lakuna.BoundedRationality</RootNamespace>
 		<Title>Bounded Rationality</Title>
+		<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<Choose>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.0|AnyCPU'">
@@ -29,6 +31,7 @@
 				<PackageReference Include="Lib.Harmony" Version="1.2.0.1" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net35</TargetFramework>
 				<OutputPath>..\..\..\1.0\Assemblies</OutputPath>
 			</PropertyGroup>
@@ -39,6 +42,7 @@
 				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.1\Assemblies</OutputPath>
 			</PropertyGroup>
@@ -49,6 +53,7 @@
 				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.2\Assemblies</OutputPath>
 			</PropertyGroup>
@@ -59,6 +64,7 @@
 				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.3\Assemblies</OutputPath>
 			</PropertyGroup>
@@ -69,6 +75,7 @@
 				<PackageReference Include="Lib.Harmony" Version="2.2.2" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.4\Assemblies</OutputPath>
 			</PropertyGroup>
@@ -79,18 +86,30 @@
 				<PackageReference Include="Lib.Harmony" Version="2.3.3" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.5\Assemblies</OutputPath>
 			</PropertyGroup>
 		</When>
 		<When Condition="'$(Configuration)|$(Platform)'=='v1.6|AnyCPU'">
 			<ItemGroup>
-				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4633" />
-				<PackageReference Include="Lib.Harmony" Version="2.4.1" />
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.6.4871" />
+				<PackageReference Include="Lib.Harmony" Version="2.4.3" />
 			</ItemGroup>
 			<PropertyGroup>
+				<Nullable>disable</Nullable>
 				<TargetFramework>net472</TargetFramework>
 				<OutputPath>..\..\..\1.6\Assemblies</OutputPath>
+			</PropertyGroup>
+		</When>
+		<When Condition="'$(Configuration)|$(Platform)'=='v1.7|AnyCPU'">
+			<ItemGroup>
+				<PackageReference Include="Krafs.Rimworld.Ref" Version="1.7.4985-unstable " />
+				<PackageReference Include="Lib.Harmony" Version="3.0.0-rc.2" />
+			</ItemGroup>
+			<PropertyGroup>
+				<TargetFramework>net10.0</TargetFramework>
+				<OutputPath>..\..\..\1.7\Assemblies</OutputPath>
 			</PropertyGroup>
 		</When>
 	</Choose>
