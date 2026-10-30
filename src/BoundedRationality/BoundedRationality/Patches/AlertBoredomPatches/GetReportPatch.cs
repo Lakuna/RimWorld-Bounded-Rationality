@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertBoredomPatches {
 	[HarmonyPatch(typeof(Alert_Boredom), nameof(Alert_Boredom.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(ref AlertReport __result) {
+		public static void Postfix(ref AlertReport __result) {
 #if V1_0
 			__result.culprits = __result.culprits?.Where((target) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, target.Thing, ControlCategory.Alert)).ToList();
 #else

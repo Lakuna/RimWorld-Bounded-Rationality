@@ -30,7 +30,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) =>
+		public static bool Prefix(Pawn pawn) =>
 			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Traits, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Backstory, pawn)
@@ -90,7 +90,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 		}
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

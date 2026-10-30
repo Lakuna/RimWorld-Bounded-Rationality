@@ -20,25 +20,36 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawSocialCard))]
 	public static class DrawSocialCardPatch {
+#if !(V1_0 || V1_1 || V1_2)
+		private static readonly MethodInfo _ideoMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
+#endif
+
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, ControlCategory.Control) // Role selection dropdown.
+		public static bool Prefix(Pawn pawn) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn, ControlCategory.Control) // Role selection dropdown.
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, ControlCategory.Control); // Romance button.
 
 #if !(V1_0 || V1_1 || V1_2)
-		private static readonly MethodInfo IdeoMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
-
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(instructions);
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
+#else
+			CodeInstruction[] getPawnInstructions = [new(OpCodes.Ldarg_1)];
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.Calls(instruction, IdeoMethod)) {
+				if (PatchUtility.Calls(instruction, _ideoMethod)) {
 					// Ideoligion contains role selection dropdown.
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;

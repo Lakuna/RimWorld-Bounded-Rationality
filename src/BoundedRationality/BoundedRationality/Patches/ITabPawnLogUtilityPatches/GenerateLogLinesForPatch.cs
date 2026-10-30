@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnLogUtilityPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Log_Utility), nameof(ITab_Pawn_Log_Utility.GenerateLogLinesFor))]
 	public static class GenerateLogLinesForPatch {
 		[HarmonyPrefix]
-		private static void Prefix(Pawn pawn, ref bool showCombat, ref bool showSocial) {
+		public static void Prefix(Pawn pawn, ref bool showCombat, ref bool showSocial) {
 			showCombat = showCombat && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, pawn);
 			showSocial = showSocial && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn);
 		}

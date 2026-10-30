@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.MechanitorControlGroupGizmoPatches {
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(ref bool __result, MechanitorControlGroup ___controlGroup) =>
+		public static void Postfix(ref bool __result, MechanitorControlGroup ___controlGroup) =>
 #pragma warning restore CA1707
 			__result = __result
 			&& (!(TrackerField.GetValue(___controlGroup) is Pawn_MechanitorTracker pawnMechanitorTracker)

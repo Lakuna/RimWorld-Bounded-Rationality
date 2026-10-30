@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertColonistNeedsRescuingPatches {
 	[HarmonyPatch(typeof(Alert_ColonistNeedsRescuing), nameof(Alert_ColonistNeedsRescuing.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(ref AlertReport __result) {
+		public static void Postfix(ref AlertReport __result) {
 #if V1_0
 
 			__result.culprits = __result.culprits?.Where((target) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, target.Thing, ControlCategory.Alert)).ToList();

@@ -14,6 +14,6 @@ namespace Lakuna.BoundedRationality.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawMood")]
 	public static class DrawMoodPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn);
+		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn);
 	}
 }

@@ -11,7 +11,7 @@ namespace Lakuna.BoundedRationality.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawMechEnergy")]
 	public static class DrawMechEnergyPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn);
+		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn);
 	}
 }
 #endif

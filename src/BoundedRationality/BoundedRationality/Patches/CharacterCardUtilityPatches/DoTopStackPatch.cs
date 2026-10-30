@@ -30,7 +30,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 		private static readonly MethodInfo IdeoMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn, ref bool creationMode) {
+		public static bool Prefix(Pawn pawn, ref bool creationMode) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 			creationMode = creationMode && basic;
 			return basic
@@ -39,7 +39,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 		}
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

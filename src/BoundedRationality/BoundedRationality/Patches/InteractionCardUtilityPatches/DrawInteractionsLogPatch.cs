@@ -14,6 +14,6 @@ namespace Lakuna.BoundedRationality.Patches.InteractionCardUtilityPatches {
 	[HarmonyPatch(typeof(InteractionCardUtility), nameof(InteractionCardUtility.DrawInteractionsLog))]
 	public static class DrawInteractionsLogPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn);
+		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn);
 	}
 }

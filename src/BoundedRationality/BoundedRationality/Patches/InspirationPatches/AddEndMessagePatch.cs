@@ -12,6 +12,6 @@ namespace Lakuna.BoundedRationality.Patches.InspirationPatches {
 	[HarmonyPatch(typeof(Inspiration), "AddEndMessage")]
 	public static class AddEndMessagePatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Inspiration __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.pawn, ControlCategory.Message);
+		public static bool Prefix(Inspiration __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.pawn, ControlCategory.Message);
 	}
 }

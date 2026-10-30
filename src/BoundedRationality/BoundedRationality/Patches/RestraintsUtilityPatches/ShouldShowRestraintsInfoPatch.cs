@@ -14,9 +14,9 @@ namespace Lakuna.BoundedRationality.Patches.RestraintsUtilityPatches {
 	[HarmonyPatch(typeof(RestraintsUtility), nameof(RestraintsUtility.ShouldShowRestraintsInfo))]
 	public static class ShouldShowRestraintsInfoPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
-		private static void Postfix(Pawn pawn, ref bool __result) =>
-#pragma warning restore CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Pawn pawn, ref bool __result) =>
+#pragma warning restore IDE1006
 			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 	}
 }

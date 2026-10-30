@@ -17,7 +17,7 @@ namespace Lakuna.BoundedRationality.Patches.HealthCardUtilityPatches {
 	public static class VisibleHediffsPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn pawn, ref IEnumerable<Hediff> __result) {
+		public static void Postfix(Pawn pawn, ref IEnumerable<Hediff> __result) {
 #pragma warning restore CA1707
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn)) {
 				return;

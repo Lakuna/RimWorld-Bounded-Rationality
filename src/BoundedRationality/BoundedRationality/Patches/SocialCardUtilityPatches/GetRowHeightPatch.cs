@@ -14,9 +14,9 @@ namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), "GetRowHeight")]
 	public static class GetRowHeightPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
-		private static void Postfix(Pawn selPawnForSocialInfo, ref float __result) {
-#pragma warning restore CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Pawn selPawnForSocialInfo, ref float __result) {
+#pragma warning restore IDE1006
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, selPawnForSocialInfo)) {
 				return;
 			}

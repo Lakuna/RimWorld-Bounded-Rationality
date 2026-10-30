@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.InteractionWorkerMarriageProposalPat
 	[HarmonyPatch(typeof(InteractionWorker_MarriageProposal), nameof(InteractionWorker_MarriageProposal.Interacted))]
 	public static class InteractedPatch {
 		[HarmonyPostfix]
-		private static void Postfix(
+		public static void Postfix(
 			Pawn initiator,
 			Pawn recipient,
 			ref string letterText,

@@ -20,7 +20,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertThoughtPatches {
 		private static readonly MethodInfo ThoughtMethod = PatchUtility.PropertyGetter(typeof(Alert_Thought), "Thought");
 
 		[HarmonyPostfix]
-		private static void Postfix(Alert_Thought __instance, ref AlertReport __result) {
+		public static void Postfix(Alert_Thought __instance, ref AlertReport __result) {
 			if (BoundedRationalityMod.Settings.NeverHideAlerts || !(ThoughtMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is ThoughtDef thoughtDef)) {
 				return;
 			}

@@ -9,9 +9,9 @@ namespace Lakuna.BoundedRationality.Patches.ThoughtMemoryPatches {
 	[HarmonyPatch(typeof(Thought_Memory), nameof(Thought_Memory.VisibleInNeedsTab), MethodType.Getter)]
 	public static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
-		private static void Postfix(Thought_Memory __instance, ref bool __result) {
-#pragma warning restore CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Thought_Memory __instance, ref bool __result) {
+#pragma warning restore IDE1006
 #if !(V1_1 || V1_2)
 			if (__instance is Thought_RelicAtRitual
 				|| __instance is Thought_TameVeneratedAnimalDied

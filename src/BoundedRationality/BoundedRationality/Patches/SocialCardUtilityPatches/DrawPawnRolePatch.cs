@@ -11,7 +11,8 @@ namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawPawnRole))]
 	public static class DrawPawnRolePatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
+		public static bool Prefix(Pawn pawn) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 	}
 }
 #endif

@@ -20,7 +20,7 @@ namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectTrainRandomSkillPat
 		private static readonly MethodInfo SendLetterMethod = PatchUtility.PropertyGetter(typeof(CompAbilityEffect), "SendLetter");
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

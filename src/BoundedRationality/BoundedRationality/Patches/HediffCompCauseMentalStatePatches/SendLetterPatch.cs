@@ -9,7 +9,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompCauseMentalStatePatches {
 	[HarmonyPatch(typeof(HediffComp_CauseMentalState), "SendLetter")]
 	public static class SendLetterPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(HediffComp_CauseMentalState __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.Pawn, ControlCategory.Letter);
+		public static bool Prefix(HediffComp_CauseMentalState __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.Pawn, ControlCategory.Letter);
 	}
 }
 #endif

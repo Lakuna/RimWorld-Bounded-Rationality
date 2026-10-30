@@ -16,7 +16,7 @@ namespace Lakuna.BoundedRationality.Patches.MentalStatePatches {
 	public static class InspectLinePatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(MentalState __instance, ref string __result) {
+		public static void Postfix(MentalState __instance, ref string __result) {
 #pragma warning restore CA1707
 			if (__instance is null) {
 				throw new ArgumentNullException(nameof(__instance));

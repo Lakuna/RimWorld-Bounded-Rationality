@@ -31,7 +31,7 @@ namespace Lakuna.BoundedRationality.Patches.GizmoPatches {
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Gizmo __instance, ref bool __result) {
+		public static void Postfix(Gizmo __instance, ref bool __result) {
 #pragma warning restore CA1707
 			if (__instance is Command_VerbTarget commandVerbTarget) {
 				__result = __result

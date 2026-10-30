@@ -20,7 +20,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompDisappearsPatches {
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

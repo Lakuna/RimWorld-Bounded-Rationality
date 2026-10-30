@@ -16,24 +16,32 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.LabelShort), MethodType.Getter)]
 	public static class LabelShortPatch {
-		private static readonly MethodInfo NameMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
-
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
-		private static readonly MethodInfo LabelPrefixMethod = PatchUtility.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
+		private static readonly MethodInfo _labelPrefixMethod = PatchUtility.PropertyGetter(typeof(Pawn), "LabelPrefix"); // Only used to indicate whether the pawn is a mutant that has turned.
 #endif
 
+		private static readonly MethodInfo _nameMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
+
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(instructions);
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+#else
+			CodeInstruction[] getPawnInstructions = [new(OpCodes.Ldarg_0)];
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.Calls(instruction, NameMethod)) {
+				if (PatchUtility.Calls(instruction, _nameMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -42,7 +50,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 				}
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)
-				if (PatchUtility.Calls(instruction, LabelPrefixMethod)) {
+				if (PatchUtility.Calls(instruction, _labelPrefixMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Health, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}

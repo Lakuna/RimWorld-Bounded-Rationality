@@ -19,7 +19,7 @@ namespace Lakuna.BoundedRationality.Patches.HealthCardUtilityPatches {
 		private static readonly MethodInfo DrawLeftRowMethod = AccessTools.Method(typeof(HealthCardUtility), "DrawLeftRow");
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

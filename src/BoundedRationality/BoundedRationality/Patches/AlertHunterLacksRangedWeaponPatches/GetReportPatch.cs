@@ -15,7 +15,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertHunterLacksRangedWeaponPatches 
 	[HarmonyPatch(typeof(Alert_HunterLacksRangedWeapon), nameof(Alert_HunterLacksRangedWeapon.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(ref AlertReport __result) {
+		public static void Postfix(ref AlertReport __result) {
 #if V1_0
 			__result.culprits = __result.culprits?.Where((target) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, target.Thing, ControlCategory.Alert)).ToList();
 #else

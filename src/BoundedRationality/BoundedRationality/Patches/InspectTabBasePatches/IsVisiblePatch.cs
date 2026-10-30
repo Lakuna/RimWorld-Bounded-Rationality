@@ -21,7 +21,7 @@ namespace Lakuna.BoundedRationality.Patches.InspectTabBasePatches {
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(InspectTabBase __instance, ref bool __result) {
+		public static void Postfix(InspectTabBase __instance, ref bool __result) {
 #pragma warning restore CA1707
 			if (__instance is ITab_Pawn_Health healthTab) {
 				__result = __result

@@ -16,7 +16,7 @@ namespace Lakuna.BoundedRationality.Patches.GenLabelPatches {
 	[HarmonyPatch(typeof(GenLabel), nameof(GenLabel.BestKindLabel), new Type[] { typeof(Pawn), typeof(bool), typeof(bool), typeof(bool), typeof(int) })]
 	public static class BestKindLabelPatch {
 		[HarmonyPrefix]
-		private static void Prefix(Pawn pawn, ref bool mustNoteGender, ref bool mustNoteLifeStage) {
+		public static void Prefix(Pawn pawn, ref bool mustNoteGender, ref bool mustNoteLifeStage) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 			mustNoteGender = mustNoteGender && basic;
 			mustNoteLifeStage = mustNoteLifeStage && basic;
@@ -24,7 +24,7 @@ namespace Lakuna.BoundedRationality.Patches.GenLabelPatches {
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn pawn, ref string __result) {
+		public static void Postfix(Pawn pawn, ref string __result) {
 #pragma warning restore CA1707
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn) || MiscellaneousUtility.IsAnimal(pawn)) { // Animals should still show their kind since it's their species.
 				return;

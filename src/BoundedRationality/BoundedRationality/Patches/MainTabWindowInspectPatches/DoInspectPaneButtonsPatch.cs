@@ -25,7 +25,7 @@ namespace Lakuna.BoundedRationality.Patches.MainTabWindowInspectPatches {
 		private static readonly FieldInfo GuiltField = AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

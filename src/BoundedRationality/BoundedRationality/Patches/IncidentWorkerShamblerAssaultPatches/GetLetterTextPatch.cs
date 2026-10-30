@@ -24,7 +24,7 @@ namespace Lakuna.BoundedRationality.Patches.IncidentWorkerShamblerAssaultPatches
 		private static readonly FieldInfo PawnGroupsField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.pawnGroups));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

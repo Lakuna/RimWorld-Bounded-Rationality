@@ -21,12 +21,12 @@ namespace Lakuna.BoundedRationality.Patches.GenMapUiPatches {
 		private static readonly MethodInfo SummaryHealthPercentMethod = PatchUtility.PropertyGetter(typeof(SummaryHealthHandler), nameof(SummaryHealthHandler.SummaryHealthPercent));
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => BoundedRationalityMod.Settings.NeverHidePawnLabels
+		public static bool Prefix(Pawn pawn) => BoundedRationalityMod.Settings.NeverHidePawnLabels
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn)
 			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn);
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

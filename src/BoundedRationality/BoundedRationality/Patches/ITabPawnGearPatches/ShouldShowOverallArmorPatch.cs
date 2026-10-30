@@ -15,7 +15,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnGearPatches {
 	public static class ShouldShowOverallArmorPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn p, ref bool __result) =>
+		public static void Postfix(Pawn p, ref bool __result) =>
 #pragma warning restore CA1707
 			__result = __result
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, p);

@@ -11,7 +11,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertMeatHungerPatches {
 	[HarmonyPatch(typeof(Alert_MeatHunger), nameof(Alert_MeatHunger.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(ref AlertReport __result) {
+		public static void Postfix(ref AlertReport __result) {
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn, ControlCategory.Alert)).ToList();
 			__result.active = __result.AnyCulpritValid;
 		}

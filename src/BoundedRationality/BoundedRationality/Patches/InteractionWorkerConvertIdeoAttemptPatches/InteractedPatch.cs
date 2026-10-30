@@ -18,7 +18,7 @@ namespace Lakuna.BoundedRationality.Patches.InteractionWorkerConvertIdeoAttemptP
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
@@ -40,7 +40,7 @@ namespace Lakuna.BoundedRationality.Patches.InteractionWorkerConvertIdeoAttemptP
 		}
 
 		[HarmonyPostfix]
-		private static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
+		public static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, initiator) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, recipient)) {
 				return;
 			}

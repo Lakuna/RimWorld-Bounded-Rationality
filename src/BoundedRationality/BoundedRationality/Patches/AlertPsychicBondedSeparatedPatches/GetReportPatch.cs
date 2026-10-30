@@ -11,7 +11,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertPsychicBondedSeparatedPatches {
 	[HarmonyPatch(typeof(Alert_PsychicBondedSeparated), nameof(Alert_PsychicBondedSeparated.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(ref AlertReport __result) {
+		public static void Postfix(ref AlertReport __result) {
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) =>
 				KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn, ControlCategory.Alert)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, ControlCategory.Alert)).ToList();

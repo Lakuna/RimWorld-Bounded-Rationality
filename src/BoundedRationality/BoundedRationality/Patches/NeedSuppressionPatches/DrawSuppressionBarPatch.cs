@@ -12,7 +12,7 @@ namespace Lakuna.BoundedRationality.Patches.NeedSuppressionPatches {
 	public static class DrawSuppressionBarPatch {
 		[HarmonyPrefix]
 #pragma warning disable CA1707
-		private static bool Prefix(Pawn ___pawn) =>
+		public static bool Prefix(Pawn ___pawn) =>
 #pragma warning restore CA1707
 			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, ___pawn);
 	}

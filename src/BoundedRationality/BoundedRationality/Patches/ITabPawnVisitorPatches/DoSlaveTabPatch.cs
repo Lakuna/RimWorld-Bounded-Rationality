@@ -38,7 +38,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 		private static readonly MethodInfo SlaveFactionMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.SlaveFaction));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

@@ -9,7 +9,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertIdeoBuildingDisrespectedPatches
 	[HarmonyPatch(typeof(Alert_IdeoBuildingDisrespected), nameof(Alert_IdeoBuildingDisrespected.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
-		private static void Postfix(ref AlertReport __result) => __result = __result.active && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, PawnType.Colonist, ControlCategory.Alert);
+		public static void Postfix(ref AlertReport __result) => __result = __result.active && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, PawnType.Colonist, ControlCategory.Alert);
 	}
 }
 #endif

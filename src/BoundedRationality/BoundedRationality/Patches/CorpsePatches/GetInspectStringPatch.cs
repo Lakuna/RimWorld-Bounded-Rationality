@@ -27,7 +27,7 @@ namespace Lakuna.BoundedRationality.Patches.CorpsePatches {
 		private static readonly MethodInfo ToStringTicksToPeriodVagueMethod = AccessTools.Method(typeof(GenDate), nameof(GenDate.ToStringTicksToPeriodVague));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

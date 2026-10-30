@@ -16,32 +16,42 @@ using RimWorld;
 namespace Lakuna.BoundedRationality.Patches.PawnStoryTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.TitleShort), MethodType.Getter)]
 	public static class TitleShortPatch {
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_StoryTracker), "pawn");
-
-		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
-
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static readonly FieldInfo AdulthoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood));
-
-		private static readonly FieldInfo ChildhoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.childhood));
+		private static readonly FieldInfo _adulthoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood));
 #else
-		private static readonly FieldInfo AdulthoodField = AccessTools.Field(typeof(Pawn_StoryTracker), "adulthood");
-
-		private static readonly FieldInfo ChildhoodField = AccessTools.Field(typeof(Pawn_StoryTracker), "childhood");
+		private static readonly FieldInfo _adulthoodField = AccessTools.Field(typeof(Pawn_StoryTracker), "adulthood");
 #endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3
+		private static readonly FieldInfo _childhoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.childhood));
+#else
+		private static readonly FieldInfo _childhoodField = AccessTools.Field(typeof(Pawn_StoryTracker), "childhood");
+#endif
+
+		private static readonly FieldInfo _pawnField = AccessTools.Field(typeof(Pawn_StoryTracker), "pawn");
+
+		private static readonly FieldInfo _titleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
+
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(instructions);
+#endif
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, PawnField) };
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Ldfld, _pawnField) };
+#else
+			CodeInstruction[] getPawnInstructions = [new(OpCodes.Ldarg_0), new(OpCodes.Ldfld, _pawnField)];
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.LoadsField(instruction, TitleField)) {
+				if (PatchUtility.LoadsField(instruction, _titleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -49,7 +59,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnStoryTrackerPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, AdulthoodField) || PatchUtility.LoadsField(instruction, ChildhoodField)) {
+				if (PatchUtility.LoadsField(instruction, _adulthoodField) || PatchUtility.LoadsField(instruction, _childhoodField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}

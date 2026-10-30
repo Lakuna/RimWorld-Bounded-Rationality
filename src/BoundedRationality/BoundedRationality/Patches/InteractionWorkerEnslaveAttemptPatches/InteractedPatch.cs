@@ -22,7 +22,7 @@ namespace Lakuna.BoundedRationality.Patches.InteractionWorkerEnslaveAttemptPatch
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
@@ -55,7 +55,7 @@ namespace Lakuna.BoundedRationality.Patches.InteractionWorkerEnslaveAttemptPatch
 		}
 
 		[HarmonyPostfix]
-		private static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
+		public static void Postfix(Pawn initiator, Pawn recipient, ref string letterText, ref string letterLabel, ref LetterDef letterDef, ref LookTargets lookTargets) {
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, initiator) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, recipient)) {
 				return;
 			}

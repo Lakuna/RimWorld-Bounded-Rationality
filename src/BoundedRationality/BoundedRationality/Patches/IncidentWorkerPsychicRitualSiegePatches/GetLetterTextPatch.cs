@@ -26,7 +26,7 @@ namespace Lakuna.BoundedRationality.Patches.IncidentWorkerPsychicRitualSiegePatc
 		private static readonly FieldInfo LetterAiArrivedTextField = AccessTools.Field(typeof(PsychicRitualDef), nameof(PsychicRitualDef.letterAIArrivedText));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

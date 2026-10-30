@@ -14,9 +14,9 @@ namespace Lakuna.BoundedRationality.Patches.PawnUtilityPatches {
 	[HarmonyPatch(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout))]
 	public static class ShouldSendNotificationAboutPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
-		private static void Postfix(Pawn p, ref bool __result) =>
-#pragma warning restore CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Pawn p, ref bool __result) =>
+#pragma warning restore IDE1006
 			__result = __result && (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, p) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, p));
 	}
 }

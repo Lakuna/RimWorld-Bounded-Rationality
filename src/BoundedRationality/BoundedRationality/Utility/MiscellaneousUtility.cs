@@ -1,13 +1,15 @@
 using System;
 using System.Linq;
+#if V1_0 || V1_1 || V1_2 || V1_3
 using System.Reflection;
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 using System.Text;
 #endif
 
 #if V1_0
 using Harmony;
-#else
+#elif V1_1 || V1_2 || V1_3
 using HarmonyLib;
 #endif
 
@@ -20,7 +22,9 @@ namespace Lakuna.BoundedRationality.Utility {
 	/// Miscellaneous utility methods.
 	/// </summary>
 	public static class MiscellaneousUtility {
-		public static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
+#if V1_0 || V1_1 || V1_2 || V1_3
+		private static readonly FieldInfo _pawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
+#endif
 
 		/// <summary>
 		/// Split up a long string into lines. Almost equivalent to `str.AddLineBreaksToLongString`.
@@ -337,7 +341,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="skill">The skill record.</param>
 		/// <returns>The pawn that is associated with the given skill record.</returns>
 		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
-			PawnField.GetValue(skill) as Pawn;
+			_pawnField.GetValue(skill) as Pawn;
 #elif V1_4 || V1_5 || V1_6
 		/// <summary>
 		/// Get the pawn that is associated with the given skill record.

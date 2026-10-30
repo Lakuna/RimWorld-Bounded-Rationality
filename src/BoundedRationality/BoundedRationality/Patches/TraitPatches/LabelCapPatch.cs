@@ -11,9 +11,9 @@ namespace Lakuna.BoundedRationality.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.LabelCap), MethodType.Getter)]
 	public static class LabelCapPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
-		private static void Postfix(Trait __instance, ref string __result) {
-#pragma warning restore CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static void Postfix(Trait __instance, ref string __result) {
+#pragma warning restore IDE1006
 			if (KnowledgeUtility.IsTraitKnown(__instance)) {
 				return;
 			}

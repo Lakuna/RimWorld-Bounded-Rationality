@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.InteractionWorkerBreakupPatches {
 	[HarmonyPatch(typeof(InteractionWorker_Breakup), nameof(InteractionWorker_Breakup.Interacted))]
 	public static class InteractedPatch {
 		[HarmonyPostfix]
-		private static void Postfix(
+		public static void Postfix(
 			Pawn initiator,
 			Pawn recipient,
 			ref string letterText,

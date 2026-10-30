@@ -108,7 +108,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 #endif
 
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn,
+		public static bool Prefix(Pawn pawn,
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 			ref Action randomizeCallback
 #else
@@ -137,7 +137,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 		}
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

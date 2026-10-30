@@ -10,7 +10,7 @@ namespace Lakuna.BoundedRationality.Patches.FactionPatches {
 	public static class HiddenPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Faction __instance, ref bool __result) =>
+		public static void Postfix(Faction __instance, ref bool __result) =>
 #pragma warning restore CA1707
 			__result = __result
 			|| !KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, __instance);

@@ -16,7 +16,7 @@ namespace Lakuna.BoundedRationality.Patches.BloodRainUtilityPatches {
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));
 
 		[HarmonyTranspiler]
-		private static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
+		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions) {
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}

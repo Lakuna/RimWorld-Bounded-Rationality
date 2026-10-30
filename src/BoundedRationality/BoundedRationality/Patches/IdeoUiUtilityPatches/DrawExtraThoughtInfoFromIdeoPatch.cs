@@ -11,7 +11,7 @@ namespace Lakuna.BoundedRationality.Patches.IdeoUiUtilityPatches {
 	[HarmonyPatch(typeof(IdeoUIUtility), nameof(IdeoUIUtility.DrawExtraThoughtInfoFromIdeo))]
 	public static class DrawExtraThoughtInfoFromIdeoPatch {
 		[HarmonyPrefix]
-		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
+		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 	}
 }
 #endif

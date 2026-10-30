@@ -14,7 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 	[HarmonyPatch(typeof(Alert_Critical), "DoMessage", MethodType.Getter)]
 	public static class DoMessagePatch {
 		[HarmonyPostfix]
-		private static void Postfix(Alert_Critical __instance, ref bool __result) {
+		public static void Postfix(Alert_Critical __instance, ref bool __result) {
 			// Never enable an already disabled message.
 			if (!__result) {
 				return;

@@ -13,7 +13,7 @@ namespace Lakuna.BoundedRationality.Patches.HealthUtilityPatches {
 	public static class GetGeneralConditionLabelPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(Pawn pawn, ref string __result) {
+		public static void Postfix(Pawn pawn, ref string __result) {
 #pragma warning restore CA1707
 			if (KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn)) {
 				return;

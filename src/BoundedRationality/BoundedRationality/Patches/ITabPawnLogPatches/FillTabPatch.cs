@@ -19,7 +19,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnLogPatches {
 
 		[HarmonyPrefix]
 #pragma warning disable CA1707
-		private static void Prefix(ITab_Pawn_Log __instance, ref bool ___showCombat, ref bool ___showSocial) {
+		public static void Prefix(ITab_Pawn_Log __instance, ref bool ___showCombat, ref bool ___showSocial) {
 #pragma warning restore CA1707
 			if (!(SelPawnForCombatInfoMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)) {
 				return;

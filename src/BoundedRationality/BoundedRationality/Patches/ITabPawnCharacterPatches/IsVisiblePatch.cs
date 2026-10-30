@@ -19,7 +19,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnCharacterPatches {
 
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(ITab_Pawn_Character __instance, ref bool __result) =>
+		public static void Postfix(ITab_Pawn_Character __instance, ref bool __result) =>
 #pragma warning restore CA1707
 			__result = __result
 			&& (!(PawnToShowInfoAboutMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)

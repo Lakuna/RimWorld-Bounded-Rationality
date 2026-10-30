@@ -12,7 +12,7 @@ namespace Lakuna.BoundedRationality.Patches.GizmoGrowthTierPatches {
 	public static class VisiblePatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
-		private static void Postfix(ref bool __result, Pawn ___child) =>
+		public static void Postfix(ref bool __result, Pawn ___child) =>
 #pragma warning restore CA1707
 			__result = __result
 			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, ___child, ControlCategory.Control);

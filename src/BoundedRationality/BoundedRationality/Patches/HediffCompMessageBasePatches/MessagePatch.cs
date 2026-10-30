@@ -9,7 +9,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompMessageBasePatches {
 	[HarmonyPatch(typeof(HediffComp_MessageBase), "Message")]
 	public static class MessagePatch {
 		[HarmonyPrefix]
-		private static bool Prefix(HediffComp_MessageBase __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.Pawn, ControlCategory.Message);
+		public static bool Prefix(HediffComp_MessageBase __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.Pawn, ControlCategory.Message);
 	}
 }
 #endif
