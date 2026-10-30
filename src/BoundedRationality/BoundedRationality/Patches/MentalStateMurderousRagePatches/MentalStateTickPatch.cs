@@ -16,7 +16,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStateMurderousRagePatches {
 	[HarmonyPatch(typeof(MentalState_MurderousRage), nameof(MentalState_MurderousRage.MentalStateTick))]
-	internal static class MentalStateTickPatch {
+	public static class MentalStateTickPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

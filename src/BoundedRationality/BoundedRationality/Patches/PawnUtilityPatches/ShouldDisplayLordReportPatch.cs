@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnUtilityPatches {
 	[HarmonyPatch(typeof(PawnUtility), nameof(PawnUtility.ShouldDisplayLordReport))]
-	internal static class ShouldDisplayLordReportPatch {
+	public static class ShouldDisplayLordReportPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Pawn pawn, ref bool __result) =>

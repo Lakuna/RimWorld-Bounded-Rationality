@@ -12,7 +12,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertColonistsIdlePatches {
 	[HarmonyPatch(typeof(Alert_ColonistsIdle), nameof(Alert_ColonistsIdle.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 #if V1_0

@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompRandomizeStageWithIntervalPatches {
 	[HarmonyPatch(typeof(HediffComp_RandomizeStageWithInterval), nameof(HediffComp_RandomizeStageWithInterval.Randomize))]
-	internal static class RandomizePatch {
+	public static class RandomizePatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
 
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

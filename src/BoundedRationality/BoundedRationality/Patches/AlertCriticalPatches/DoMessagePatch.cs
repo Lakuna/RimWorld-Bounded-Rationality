@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 	[HarmonyPatch(typeof(Alert_Critical), "DoMessage", MethodType.Getter)]
-	internal static class DoMessagePatch {
+	public static class DoMessagePatch {
 		[HarmonyPostfix]
 		private static void Postfix(Alert_Critical __instance, ref bool __result) {
 			// Never enable an already disabled message.

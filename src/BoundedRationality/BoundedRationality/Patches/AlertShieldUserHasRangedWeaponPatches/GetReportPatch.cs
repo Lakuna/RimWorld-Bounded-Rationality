@@ -12,7 +12,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertShieldUserHasRangedWeaponPatches {
 	[HarmonyPatch(typeof(Alert_ShieldUserHasRangedWeapon), nameof(Alert_ShieldUserHasRangedWeapon.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 #if V1_0

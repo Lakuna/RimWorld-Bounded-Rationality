@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.ColonistBarColonistDrawerPatches {
 	[HarmonyPatch(typeof(ColonistBarColonistDrawer), nameof(ColonistBarColonistDrawer.DrawColonist))]
-	internal static class DrawColonistPatch {
+	public static class DrawColonistPatch {
 		private static readonly FieldInfo MoodField = AccessTools.Field(typeof(Pawn_NeedsTracker), nameof(Pawn_NeedsTracker.mood));
 
 		[HarmonyTranspiler]

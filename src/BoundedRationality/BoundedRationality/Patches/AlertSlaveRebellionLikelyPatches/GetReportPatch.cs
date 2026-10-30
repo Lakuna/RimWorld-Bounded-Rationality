@@ -7,7 +7,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertSlaveRebellionLikelyPatches {
 	[HarmonyPatch(typeof(Alert_SlaveRebellionLikely), nameof(Alert_SlaveRebellionLikely.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 			if (

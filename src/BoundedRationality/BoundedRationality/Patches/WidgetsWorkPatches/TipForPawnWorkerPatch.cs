@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.WidgetsWorkPatches {
 	[HarmonyPatch(typeof(WidgetsWork), nameof(WidgetsWork.TipForPawnWorker))]
-	internal static class TipForPawnWorkerPatch {
+	public static class TipForPawnWorkerPatch {
 #if !V1_0
 		private static readonly MethodInfo WorkTypeIsDisabledMethod = AccessTools.Method(typeof(Pawn), nameof(Pawn.WorkTypeIsDisabled));
 #endif

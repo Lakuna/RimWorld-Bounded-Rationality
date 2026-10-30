@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.WidgetsWorkPatches {
 	[HarmonyPatch(typeof(WidgetsWork), "DrawWorkBoxBackground")]
-	internal static class DrawWorkBoxBackgroundPatch {
+	public static class DrawWorkBoxBackgroundPatch {
 		private static readonly MethodInfo AverageOfRelevantSkillsForMethod = AccessTools.Method(typeof(Pawn_SkillTracker), nameof(Pawn_SkillTracker.AverageOfRelevantSkillsFor));
 
 #if !(V1_0 || V1_1 || V1_2)

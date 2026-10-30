@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.AbilityPatches {
 	[HarmonyPatch(typeof(Ability), "CooldownTick")]
-	internal static class CooldownTickPatch {
+	public static class CooldownTickPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Ability), nameof(Ability.pawn));
 
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));

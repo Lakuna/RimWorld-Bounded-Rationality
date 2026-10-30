@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.FactionPatches {
 	[HarmonyPatch(typeof(Faction), nameof(Faction.TryAffectGoodwillWith))]
-	internal static class TryAffectGoodwillWithPatch {
+	public static class TryAffectGoodwillWithPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]

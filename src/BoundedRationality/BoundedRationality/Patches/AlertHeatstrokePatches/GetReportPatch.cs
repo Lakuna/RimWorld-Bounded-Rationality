@@ -9,7 +9,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertHeatstrokePatches {
 	[HarmonyPatch(typeof(Alert_Heatstroke), nameof(Alert_Heatstroke.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, ControlCategory.Alert)).ToList();

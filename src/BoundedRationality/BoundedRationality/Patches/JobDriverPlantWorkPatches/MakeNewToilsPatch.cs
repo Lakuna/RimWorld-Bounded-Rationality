@@ -20,7 +20,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.JobDriverPlantWorkPatches {
 	[HarmonyPatch(typeof(JobDriver_PlantWork), "MakeNewToils")]
-	internal static class MakeNewToilsPatch {
+	public static class MakeNewToilsPatch {
 		private static readonly FieldInfo ActorField = AccessTools.Field(typeof(Toil), nameof(Toil.actor));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

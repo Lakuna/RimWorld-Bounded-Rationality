@@ -15,7 +15,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetReasonsForDisabledWorkType))]
-	internal static class GetReasonsForDisabledWorkTypePatch {
+	public static class GetReasonsForDisabledWorkTypePatch {
 #if V1_3
 		private static readonly MethodInfo DisabledWorkTypesMethod = PatchUtility.PropertyGetter(typeof(Backstory), nameof(Backstory.DisabledWorkTypes));
 #else

@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SlaveRebellionUtilityPatches {
 	[HarmonyPatch(typeof(SlaveRebellionUtility), nameof(SlaveRebellionUtility.IncrementSuppression))]
-	internal static class IncrementSuppressionPatch {
+	public static class IncrementSuppressionPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
 		[HarmonyTranspiler]

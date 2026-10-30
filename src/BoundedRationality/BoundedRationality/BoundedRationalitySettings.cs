@@ -5,283 +5,304 @@ using Lakuna.BoundedRationality.Utility;
 using Verse;
 
 namespace Lakuna.BoundedRationality {
-#pragma warning disable CA1708
-	public class BoundedRationalitySettings : ModSettings {
-#pragma warning restore CA1708
-		private static readonly int InfoWidth = Enum.GetValues(typeof(PawnType)).Length;
+	public sealed class BoundedRationalitySettings : ModSettings {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static readonly int _infoHeight = Enum.GetValues(typeof(InformationCategory)).Length;
+#else
+		private static readonly int _infoHeight = Enum.GetValues<InformationCategory>().Length;
+#endif
 
-		private static readonly int InfoHeight = Enum.GetValues(typeof(InformationCategory)).Length;
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static readonly int _infoWidth = Enum.GetValues(typeof(PawnType)).Length;
+#else
+		private static readonly int _infoWidth = Enum.GetValues<PawnType>().Length;
+#endif
+
+		public bool AlwaysKnowGrowthMomentTraits {
+			get => this._alwaysKnowGrowthMomentTraits;
+			set => this._alwaysKnowGrowthMomentTraits = value;
+		}
+
+		public bool AlwaysKnowMoreAboutColonistRelatives {
+			get => this._alwaysKnowMoreAboutColonistRelatives;
+			set => this._alwaysKnowMoreAboutColonistRelatives = value;
+		}
+
+		public bool AlwaysKnowStartingColonists {
+			get => this._alwaysKnowStartingColonists;
+			set => this._alwaysKnowStartingColonists = value;
+		}
+
+		public int BackstoryLearningDifficulty {
+			get => this._backstoryDiscoveryDifficulty;
+			set => this._backstoryDiscoveryDifficulty = value;
+		}
+
+		public bool EnableUniqueTraitUnlockConditions {
+			get => this._enableUniqueTraitUnlockConditions;
+			set => this._enableUniqueTraitUnlockConditions = value;
+		}
+
+		public bool HideAncientCorpses {
+			get => this._hideAncientCorpses;
+			set => this._hideAncientCorpses = value;
+		}
+
+		public bool HideFactionInformation {
+			get => this._hideFactionInformation;
+			set => this._hideFactionInformation = value;
+		}
+
+		public BoolGrid? KnownInformation {
+			get => this._knownInformation;
+			set => this._knownInformation = value;
+		}
+
+		public bool LegacyMode {
+			get => this._legacyMode;
+			set => this._legacyMode = value;
+		}
+
+		public bool NeverHideAlerts {
+			get => this._neverHideAlerts;
+			set => this._neverHideAlerts = value;
+		}
+
+		public bool NeverHideControls {
+			get => this._neverHideControls;
+			set => this._neverHideControls = value;
+		}
+
+		public bool NeverHideLetters {
+			get => this._neverHideLetters;
+			set => this._neverHideLetters = value;
+		}
+
+		public bool NeverHideMessages {
+			get => this._neverHideMessages;
+			set => this._neverHideMessages = value;
+		}
+
+		public bool NeverHidePawnLabels {
+			get => this._neverHidePawnLabels;
+			set => this._neverHidePawnLabels = value;
+		}
+
+		public bool NeverHideTextMotes {
+			get => this._neverHideTextMotes;
+			set => this._neverHideTextMotes = value;
+		}
+
+		public bool PreventForcedSpeed {
+			get => this._preventForcedSpeed;
+			set => this._preventForcedSpeed = value;
+		}
+
+		public bool RememberFormerColonists {
+			get => this._rememberFormerColonists;
+			set => this._rememberFormerColonists = value;
+		}
+
+		public int SkillsLearningDifficulty {
+			get => this._skillsDiscoveryDifficulty;
+			set => this._skillsDiscoveryDifficulty = value;
+		}
+
+		public int TraitsLearningDifficulty {
+			get => this._traitDiscoveryDifficulty;
+			set => this._traitDiscoveryDifficulty = value;
+		}
+
+		private bool _alwaysKnowGrowthMomentTraits = true;
+
+		private bool _alwaysKnowMoreAboutColonistRelatives = true;
+
+		private bool _alwaysKnowStartingColonists = true;
+
+		private int _backstoryDiscoveryDifficulty = 1;
+
+		private bool _enableUniqueTraitUnlockConditions = true;
+
+		private bool _hideAncientCorpses = true;
+
+		private bool _hideFactionInformation;
+
+		private BoolGrid? _knownInformation = new(_infoWidth, _infoHeight);
+
+		private bool[]? _learningEnabled = new bool[_infoWidth];
+
+		private bool _legacyMode;
+
+		private bool _neverHideAlerts;
+
+		private bool _neverHideControls = true;
+
+		private bool _neverHideLetters;
+
+		private bool _neverHideMessages;
+
+		private bool _neverHidePawnLabels;
+
+		private bool _neverHideTextMotes;
+
+		private bool _preventForcedSpeed;
+
+		private bool _rememberFormerColonists = true;
+
+		private int _skillsDiscoveryDifficulty = 1;
+
+		private int _traitDiscoveryDifficulty = 1;
 
 		public BoundedRationalitySettings() {
-			this.InitKnown();
-			this.InitLearningEnabled();
-			this.traitDiscoveryDifficulty = 1;
-			this.backstoryDiscoveryDifficulty = 1;
-			this.skillsDiscoveryDifficulty = 1;
-			this.alwaysKnowStartingColonists = true;
-			this.rememberFormerColonists = true;
-			this.alwaysKnowGrowthMomentTraits = true;
-			this.hideFactionInformation = false;
-			this.neverHideControls = true;
-			this.neverHideTextMotes = false;
-			this.neverHideMessages = false;
-			this.neverHideLetters = false;
-			this.neverHideAlerts = false;
-			this.neverHidePawnLabels = false;
-			this.preventForcedSpeed = false;
-			this.hideAncientCorpses = true;
-			this.legacyMode = false;
-			this.alwaysKnowMoreAboutColonistRelatives = true;
-			this.enableUniqueTraitUnlockConditions = true;
+			this.InitializeKnownInformation();
+			this.InitializeLearningEnabled();
 		}
-
-		private BoolGrid knownInformation;
-
-		internal BoolGrid KnownInformation => this.knownInformation;
-
-		private bool[] learningEnabled;
-
-#pragma warning disable CA1819
-		internal bool[] LearningEnabled => this.learningEnabled;
-#pragma warning restore CA1819
-
-		private int traitDiscoveryDifficulty;
-
-		internal int TraitsLearningDifficulty {
-			get => this.traitDiscoveryDifficulty;
-			set => this.traitDiscoveryDifficulty = value;
-		}
-
-		private int backstoryDiscoveryDifficulty;
-
-		internal int BackstoryLearningDifficulty {
-			get => this.backstoryDiscoveryDifficulty;
-			set => this.backstoryDiscoveryDifficulty = value;
-		}
-
-		private int skillsDiscoveryDifficulty;
-
-		internal int SkillsLearningDifficulty {
-			get => this.skillsDiscoveryDifficulty;
-			set => this.skillsDiscoveryDifficulty = value;
-		}
-
-		private bool alwaysKnowStartingColonists;
-
-		internal bool AlwaysKnowStartingColonists {
-			get => this.alwaysKnowStartingColonists;
-			set => this.alwaysKnowStartingColonists = value;
-		}
-
-		private bool rememberFormerColonists;
-
-		internal bool RememberFormerColonists {
-			get => this.rememberFormerColonists;
-			set => this.rememberFormerColonists = value;
-		}
-
-		private bool alwaysKnowMoreAboutColonistRelatives;
-
-		internal bool AlwaysKnowMoreAboutColonistRelatives {
-			get => this.alwaysKnowMoreAboutColonistRelatives;
-			set => this.alwaysKnowMoreAboutColonistRelatives = value;
-		}
-
-		private bool alwaysKnowGrowthMomentTraits;
-
-		internal bool AlwaysKnowGrowthMomentTraits {
-			get => this.alwaysKnowGrowthMomentTraits;
-			set => this.alwaysKnowGrowthMomentTraits = value;
-		}
-
-		private bool hideFactionInformation;
-
-		internal bool HideFactionInformation {
-			get => this.hideFactionInformation;
-			set => this.hideFactionInformation = value;
-		}
-
-		private bool neverHideControls;
-
-		internal bool NeverHideControls {
-			get => this.neverHideControls;
-			set => this.neverHideControls = value;
-		}
-
-		private bool neverHideTextMotes;
-
-		internal bool NeverHideTextMotes {
-			get => this.neverHideTextMotes;
-			set => this.neverHideTextMotes = value;
-		}
-
-		private bool neverHideMessages;
-
-		internal bool NeverHideMessages {
-			get => this.neverHideMessages;
-			set => this.neverHideMessages = value;
-		}
-
-		private bool neverHideLetters;
-
-		internal bool NeverHideLetters {
-			get => this.neverHideLetters;
-			set => this.neverHideLetters = value;
-		}
-
-		private bool neverHideAlerts;
-
-		internal bool NeverHideAlerts {
-			get => this.neverHideAlerts;
-			set => this.neverHideAlerts = value;
-		}
-
-		private bool neverHidePawnLabels;
-
-		internal bool NeverHidePawnLabels {
-			get => this.neverHidePawnLabels;
-			set => this.neverHidePawnLabels = value;
-		}
-
-		private bool preventForcedSpeed;
-
-		internal bool PreventForcedSpeed {
-			get => this.preventForcedSpeed;
-			set => this.preventForcedSpeed = value;
-		}
-
-		private bool hideAncientCorpses;
-
-		internal bool HideAncientCorpses {
-			get => this.hideAncientCorpses;
-			set => this.hideAncientCorpses = value;
-		}
-
-		private bool legacyMode;
-
-		internal bool LegacyMode {
-			get => this.legacyMode;
-			set => this.legacyMode = value;
-		}
-
-		private bool enableUniqueTraitUnlockConditions;
-
-		internal bool EnableUniqueTraitUnlockConditions {
-			get => this.enableUniqueTraitUnlockConditions;
-			set => this.enableUniqueTraitUnlockConditions = value;
-		}
-
-		private void InitKnown() {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-			Map map = new Map();
-			map.info.Size = new IntVec3(InfoWidth, 0, InfoHeight);
-			if (this.knownInformation is null) {
-				this.knownInformation = new BoolGrid(map);
-			} else {
-				this.knownInformation.ClearAndResizeTo(map);
-			}
-
-#if V1_5
-			map.Dispose();
-#endif
-#else
-			if (this.knownInformation is null) {
-				this.knownInformation = new BoolGrid(InfoWidth, InfoHeight);
-			} else {
-				this.knownInformation.ClearAndResizeTo(InfoWidth, InfoHeight);
-			}
-#endif
-
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Skills] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Traits] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Abilities] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Backstory] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
-			this.knownInformation[(int)PawnType.Colonist, (int)InformationCategory.Personal] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Skills] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Traits] = true;
-			this.knownInformation[(int)PawnType.Controlled, (int)InformationCategory.Abilities] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Traits] = true;
-			this.knownInformation[(int)PawnType.Slave, (int)InformationCategory.Abilities] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Skills] = true;
-			this.knownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Traits] = true;
-			this.knownInformation[(int)PawnType.Neutral, (int)InformationCategory.Basic] = true;
-		}
-
-		private bool KnownSizeIsCorrect() {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-			Map map = new Map();
-			map.info.Size = new IntVec3(InfoWidth, 0, InfoHeight);
-			bool output = this.knownInformation.MapSizeMatches(map);
-#if V1_5
-			map.Dispose();
-#endif
-			return output;
-#else
-			return this.knownInformation.Width == InfoWidth && this.knownInformation.Height == InfoHeight;
-#endif
-		}
-
-		private void InitLearningEnabled() {
-			this.learningEnabled = new bool[InfoWidth];
-			this.learningEnabled[(int)PawnType.Slave] = true;
-			this.learningEnabled[(int)PawnType.Prisoner] = true;
-		}
-
-		private bool LearningEnabledSizeIsCorrect() => this.learningEnabled.Length == InfoWidth;
 
 		public override void ExposeData() {
 			base.ExposeData();
-			Scribe_Deep.Look(ref this.knownInformation, nameof(this.knownInformation));
-			MiscellaneousUtility.LookBoolArray(ref this.learningEnabled, InfoWidth, nameof(this.learningEnabled));
-			Scribe_Values.Look(ref this.traitDiscoveryDifficulty, nameof(this.traitDiscoveryDifficulty));
-			Scribe_Values.Look(ref this.backstoryDiscoveryDifficulty, nameof(this.backstoryDiscoveryDifficulty));
-			Scribe_Values.Look(ref this.skillsDiscoveryDifficulty, nameof(this.skillsDiscoveryDifficulty));
-			Scribe_Values.Look(ref this.alwaysKnowStartingColonists, nameof(this.alwaysKnowStartingColonists));
-			Scribe_Values.Look(ref this.rememberFormerColonists, nameof(this.rememberFormerColonists));
-			Scribe_Values.Look(ref this.alwaysKnowMoreAboutColonistRelatives, nameof(this.alwaysKnowMoreAboutColonistRelatives));
-			Scribe_Values.Look(ref this.alwaysKnowGrowthMomentTraits, nameof(this.alwaysKnowGrowthMomentTraits));
-			Scribe_Values.Look(ref this.hideFactionInformation, nameof(this.hideFactionInformation));
-			Scribe_Values.Look(ref this.neverHideControls, nameof(this.neverHideControls));
-			Scribe_Values.Look(ref this.neverHideTextMotes, nameof(this.neverHideTextMotes));
-			Scribe_Values.Look(ref this.neverHideMessages, nameof(this.neverHideMessages));
-			Scribe_Values.Look(ref this.neverHideLetters, nameof(this.neverHideLetters));
-			Scribe_Values.Look(ref this.neverHideAlerts, nameof(this.neverHideAlerts));
-			Scribe_Values.Look(ref this.neverHidePawnLabels, nameof(this.neverHidePawnLabels));
-			Scribe_Values.Look(ref this.preventForcedSpeed, nameof(this.preventForcedSpeed));
-			Scribe_Values.Look(ref this.hideAncientCorpses, nameof(this.hideAncientCorpses));
-			Scribe_Values.Look(ref this.legacyMode, nameof(this.legacyMode));
-			Scribe_Values.Look(ref this.enableUniqueTraitUnlockConditions, nameof(this.enableUniqueTraitUnlockConditions));
+			Scribe_Deep.Look(ref this._knownInformation, "knownInformation");
+			MiscellaneousUtility.LookBoolArray(ref this._learningEnabled, _infoWidth, "learningEnabled");
+			Scribe_Values.Look(ref this._traitDiscoveryDifficulty, "traitDiscoveryDifficulty");
+			Scribe_Values.Look(ref this._backstoryDiscoveryDifficulty, "backstoryDiscoveryDifficulty");
+			Scribe_Values.Look(ref this._skillsDiscoveryDifficulty, "skillsDiscoveryDifficulty");
+			Scribe_Values.Look(ref this._alwaysKnowStartingColonists, "alwaysKnowStartingColonists");
+			Scribe_Values.Look(ref this._rememberFormerColonists, "rememberFormerColonists");
+			Scribe_Values.Look(ref this._alwaysKnowMoreAboutColonistRelatives, "alwaysKnowMoreAboutColonistRelatives");
+			Scribe_Values.Look(ref this._alwaysKnowGrowthMomentTraits, "alwaysKnowGrowthMomentTraits");
+			Scribe_Values.Look(ref this._hideFactionInformation, "hideFactionInformation");
+			Scribe_Values.Look(ref this._neverHideControls, "neverHideControls");
+			Scribe_Values.Look(ref this._neverHideTextMotes, "neverHideTextMotes");
+			Scribe_Values.Look(ref this._neverHideMessages, "neverHideMessages");
+			Scribe_Values.Look(ref this._neverHideLetters, "neverHideLetters");
+			Scribe_Values.Look(ref this._neverHideAlerts, "neverHideAlerts");
+			Scribe_Values.Look(ref this._neverHidePawnLabels, "neverHidePawnLabels");
+			Scribe_Values.Look(ref this._preventForcedSpeed, "preventForcedSpeed");
+			Scribe_Values.Look(ref this._hideAncientCorpses, "hideAncientCorpses");
+			Scribe_Values.Look(ref this._legacyMode, "legacyMode");
+			Scribe_Values.Look(ref this._enableUniqueTraitUnlockConditions, "enableUniqueTraitUnlockConditions");
 
-			if (Scribe.mode != LoadSaveMode.PostLoadInit) {
-				return;
-			}
+			// If new information categories have been added since the last load, add them to the settings.
+			if (Scribe.mode == LoadSaveMode.PostLoadInit) {
+				if (!this.KnownInformationIsValid()) {
+					this.InitializeKnownInformation();
+				}
 
-			if (!this.KnownSizeIsCorrect()) {
-				this.InitKnown();
-			}
-
-			if (!this.LearningEnabledSizeIsCorrect()) {
-				this.InitLearningEnabled();
+				if (!this.LearningEnabledIsValid()) {
+					this.InitializeLearningEnabled();
+				}
 			}
 		}
+
+		public bool GetLearningEnabledFor(PawnType type) {
+			if (this._learningEnabled is null) {
+				BoundedRationalityLogger.LogErrorMessage("Attempted to get learning enabled from null.");
+				this._learningEnabled = [];
+				this.InitializeLearningEnabled();
+			}
+
+			return this._learningEnabled[(int)type];
+		}
+
+		public bool SetLearningEnabledFor(PawnType type, bool value) {
+			if (this._learningEnabled is null) {
+				BoundedRationalityLogger.LogErrorMessage("Attempted to set learning enabled in null.");
+				this._learningEnabled = [];
+				this.InitializeLearningEnabled();
+			}
+
+			return this._learningEnabled[(int)type] = value;
+		}
+
+		private void InitializeKnownInformation() {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+			Map map = new Map();
+			map.info.Size = new IntVec3(_infoWidth, 0, _infoHeight);
+			if (this.KnownInformation is null) {
+				this.KnownInformation = new BoolGrid(map);
+			} else {
+				this.KnownInformation.ClearAndResizeTo(map);
+			}
+#elif V1_5
+			Map map = new Map();
+			map.info.Size = new IntVec3(_infoWidth, 0, _infoHeight);
+			if (this.KnownInformation is null) {
+				this.KnownInformation = new BoolGrid(map);
+			} else {
+				this.KnownInformation.ClearAndResizeTo(map);
+			}
+
+			map.Dispose();
+#else
+			if (this.KnownInformation is null) {
+				this.KnownInformation = new BoolGrid(_infoWidth, _infoHeight);
+			} else {
+				this.KnownInformation.ClearAndResizeTo(_infoWidth, _infoHeight);
+			}
+#endif
+
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Basic] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Health] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Needs] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Gear] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Skills] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Traits] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Abilities] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Backstory] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Social] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Ideoligion] = true;
+			this.KnownInformation[(int)PawnType.Colonist, (int)InformationCategory.Personal] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Basic] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Health] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Needs] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Gear] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Skills] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Traits] = true;
+			this.KnownInformation[(int)PawnType.Controlled, (int)InformationCategory.Abilities] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Basic] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Health] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Needs] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Gear] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Skills] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Traits] = true;
+			this.KnownInformation[(int)PawnType.Slave, (int)InformationCategory.Abilities] = true;
+			this.KnownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Basic] = true;
+			this.KnownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Health] = true;
+			this.KnownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Needs] = true;
+			this.KnownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Gear] = true;
+			this.KnownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Skills] = true;
+			this.KnownInformation[(int)PawnType.Prisoner, (int)InformationCategory.Traits] = true;
+			this.KnownInformation[(int)PawnType.Neutral, (int)InformationCategory.Basic] = true;
+		}
+
+		private void InitializeLearningEnabled() {
+			this._learningEnabled = new bool[_infoWidth];
+			this.SetLearningEnabledFor(PawnType.Slave, true);
+			this.SetLearningEnabledFor(PawnType.Prisoner, true);
+		}
+
+		private bool KnownInformationIsValid() {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+			Map map = new Map();
+			map.info.Size = new IntVec3(_infoWidth, 0, _infoHeight);
+			bool output = this.KnownInformation.MapSizeMatches(map);
+#elif V1_5
+			Map map = new Map();
+			map.info.Size = new IntVec3(_infoWidth, 0, _infoHeight);
+			bool output = this.KnownInformation.MapSizeMatches(map);
+			map.Dispose();
+			return output;
+#else
+			if (this.KnownInformation is null) {
+				BoundedRationalityLogger.LogErrorMessage("Attempted to check size of null known information.");
+				this.KnownInformation = new BoolGrid();
+			}
+
+			return this.KnownInformation.Width == _infoWidth && this.KnownInformation.Height == _infoHeight;
+#endif
+		}
+
+		private bool LearningEnabledIsValid() =>
+			this._learningEnabled is not null
+			&& this._learningEnabled.Length == _infoWidth;
 	}
 }

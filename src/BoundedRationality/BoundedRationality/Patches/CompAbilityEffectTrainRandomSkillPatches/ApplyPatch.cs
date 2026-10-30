@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectTrainRandomSkillPatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_TrainRandomSkill), nameof(CompAbilityEffect_TrainRandomSkill.Apply))]
-	internal static class ApplyPatch {
+	public static class ApplyPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));
 
 		private static readonly MethodInfo SendLetterMethod = PatchUtility.PropertyGetter(typeof(CompAbilityEffect), "SendLetter");

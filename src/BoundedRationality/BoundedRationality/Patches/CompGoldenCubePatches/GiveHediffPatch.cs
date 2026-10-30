@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CompGoldenCubePatches {
 	[HarmonyPatch(typeof(CompGoldenCube), "GiveHediff")]
-	internal static class GiveHediffPatch {
+	public static class GiveHediffPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]

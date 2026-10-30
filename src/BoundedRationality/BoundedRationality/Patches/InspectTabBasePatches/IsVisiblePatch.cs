@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InspectTabBasePatches {
 	[HarmonyPatch(typeof(InspectTabBase), nameof(InspectTabBase.IsVisible), MethodType.Getter)]
-	internal static class IsVisiblePatch {
+	public static class IsVisiblePatch {
 		private static readonly MethodInfo PawnForHealthMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Health), "PawnForHealth");
 
 		private static readonly MethodInfo SelPawnForCombatInfoMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Log), "SelPawnForCombatInfo");

@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffDeathRefusalPatches {
 	[HarmonyPatch(typeof(Hediff_DeathRefusal), "Use")]
-	internal static class UsePatch {
+	public static class UsePatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.AlertThoughtPatches {
 	[HarmonyPatch(typeof(Alert_Thought), nameof(Alert_Thought.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		private static readonly MethodInfo ThoughtMethod = PatchUtility.PropertyGetter(typeof(Alert_Thought), "Thought");
 
 		[HarmonyPostfix]

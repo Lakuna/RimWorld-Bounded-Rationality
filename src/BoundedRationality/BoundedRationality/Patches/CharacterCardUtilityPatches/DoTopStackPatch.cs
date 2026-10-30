@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoTopStack")]
-	internal static class DoTopStackPatch {
+	public static class DoTopStackPatch {
 		private static readonly FieldInfo GenesField = AccessTools.Field(typeof(Pawn), nameof(Pawn.genes));
 
 		private static readonly FieldInfo FactionField = AccessTools.Field(typeof(ExtraFaction), nameof(ExtraFaction.faction));

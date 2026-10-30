@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.BloodRainUtilityPatches {
 	[HarmonyPatch(typeof(BloodRainUtility), nameof(BloodRainUtility.TryTriggerBerserkShort))]
-	internal static class TryTriggerBerserkShortPatch {
+	public static class TryTriggerBerserkShortPatch {
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));
 
 		[HarmonyTranspiler]

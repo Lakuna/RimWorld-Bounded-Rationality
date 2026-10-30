@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "DoLeftSection")]
-	internal static class DoLeftSectionPatch {
+	public static class DoLeftSectionPatch {
 		private static readonly MethodInfo AllAbilitiesForReadingMethod = PatchUtility.PropertyGetter(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.AllAbilitiesForReading));
 
 		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));

@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.NeedPatches {
 	[HarmonyPatch(typeof(Need), nameof(Need.ShowOnNeedList), MethodType.Getter)]
-	internal static class ShowOnNeedListPatch {
+	public static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Need __instance, ref bool __result, Pawn ___pawn) {

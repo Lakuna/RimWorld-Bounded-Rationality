@@ -1,15 +1,13 @@
 using System;
 using System.Linq;
-#if V1_0 || V1_1 || V1_2 || V1_3
 using System.Reflection;
-#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 using System.Text;
 #endif
 
 #if V1_0
 using Harmony;
-#elif V1_1 || V1_2 || V1_3
+#else
 using HarmonyLib;
 #endif
 
@@ -22,52 +20,55 @@ namespace Lakuna.BoundedRationality.Utility {
 	/// Miscellaneous utility methods.
 	/// </summary>
 	public static class MiscellaneousUtility {
+		public static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
+
 		/// <summary>
-		/// Equivalent to `Pawn.IsFreeNonSlaveColonist` for all versions of RimWorld.
+		/// Split up a long string into lines. Almost equivalent to `str.AddLineBreaksToLongString`.
 		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>`Pawn.IsFreeNonSlaveColonist`.</returns>
-		public static bool IsFreeNonSlaveColonist(Pawn pawn) =>
-			pawn != null
-#if V1_0 || V1_1 || V1_2
-			&& pawn.IsFreeColonist;
+		/// <param name="str">The string.</param>
+		/// <returns>The split-up string.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		public static string AddLineBreaksToLongString(string str) {
+			StringBuilder stringBuilder = new StringBuilder(str.Length + (str.Length / 100 + 3) * 2 + 1);
+			stringBuilder = stringBuilder.AppendLine();
+			for (int i = 0; i < str.Length; i++) {
+				if (i % 100 == 0 && i != 0) {
+					stringBuilder = stringBuilder.AppendLine();
+				}
+
+				stringBuilder = stringBuilder.Append(str[i]);
+			}
+
+			stringBuilder = stringBuilder.AppendLine();
+			return stringBuilder.ToString();
+		}
 #else
-			&& pawn.IsFreeNonSlaveColonist;
+		public static string AddLineBreaksToLongString(string str) =>
+			str.AddLineBreaksToLongString() ?? "null";
 #endif
 
 		/// <summary>
-		/// Equivalent to `Pawn.IsAnimal` for all versions of RimWorld.
+		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
-		/// <returns>`Pawn.IsAnimal`.</returns>
-		public static bool IsAnimal(Pawn pawn) =>
-			pawn != null
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
-			&& pawn.RaceProps.Animal;
+		/// <returns>Whether or not the pawn is dead or downed.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		public static bool DeadOrDowned(Pawn pawn) =>
+			pawn != null && (pawn.Dead || pawn.Downed);
+#elif V1_5
+		public static bool DeadOrDowned(Pawn pawn) =>
+			pawn?.DeadOrDowned ?? false;
 #else
-			&& pawn.IsAnimal;
-#endif
-
-		/// <summary>
-		/// Equivalent to `Pawn.IsPlayerControlled` for all versions of RimWorld. For checking whether or not a pawn belongs to a player-controlled pawn type, use `MiscellaneousUtility.IsPlayerControlled` instead.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>`Pawn.IsPlayerControlled`.</returns>
-		public static bool PawnIsPlayerControlled(Pawn pawn) =>
-			pawn != null
-#if V1_0 || V1_1 || V1_2 || V1_3
-			&& pawn.IsColonistPlayerControlled;
-#elif V1_4
-			&& (pawn.IsColonistPlayerControlled || pawn.IsColonyMechPlayerControlled);
-#else
-			&& pawn.IsPlayerControlled;
+		public static bool DeadOrDowned(Pawn? pawn) =>
+			pawn?.DeadOrDowned ?? false;
 #endif
 
 		/// <summary>
 		/// Make an empty array of objects.
 		/// </summary>
 		/// <returns>The array.</returns>
-		public static object[] EmptyArray() => EmptyArray<object>();
+		public static object[] EmptyArray() =>
+			EmptyArray<object>();
 
 		/// <summary>
 		/// Make an empty array of the given type.
@@ -77,104 +78,150 @@ namespace Lakuna.BoundedRationality.Utility {
 		public static T[] EmptyArray<T>() =>
 #if V1_0
 			new T[] { };
-#else
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Array.Empty<T>();
-#endif
-
-		/// <summary>
-		/// End the given string with a period.
-		/// </summary>
-		/// <param name="s">The string.</param>
-		/// <returns>The string.</returns>
-		public static string EndWithPeriod(string s) =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-			$"{s}.";
 #else
-			s.EndWithPeriod();
+			[];
 #endif
 
-#if !V1_0
 		/// <summary>
-		/// End the given tagged string with a period.
+		/// Equivalent to `enumType.GetEnumUnderlyingType` for all runtimes.
 		/// </summary>
-		/// <param name="s">The tagged string.</param>
-		/// <returns>The tagged string.</returns>
-		public static TaggedString EndWithPeriod(TaggedString s) =>
-#if V1_1 || V1_2 || V1_3 || V1_4
-			$"{s}.";
-#else
-			s.EndWithPeriod();
-#endif
-#endif
-
-#if V1_0 || V1_1 || V1_2 || V1_3
-		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
-
-		/// <summary>
-		/// Get the pawn that is associated with the given skill record.
-		/// </summary>
-		/// <param name="skill">The skill record.</param>
-		/// <returns>The pawn that is associated with the given skill record.</returns>
-		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
-			PawnField.GetValue(skill) as Pawn;
-#else
-		/// <summary>
-		/// Get the pawn that is associated with the given skill record.
-		/// </summary>
-		/// <param name="skill">The skill record.</param>
-		/// <returns>The pawn that is associated with the given skill record.</returns>
-		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
-			skill?.Pawn;
-#endif
-
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-		/// <summary>
-		/// Split up a long string into lines. Almost equivalent to `str.AddLineBreaksToLongString`.
-		/// </summary>
-		/// <param name="str">The string.</param>
-		/// <returns>The split-up string.</returns>
-		public static string AddLineBreaksToLongString(string str) {
-			StringBuilder stringBuilder = new StringBuilder((str?.Length ?? 0) + (str.Length / 100 + 3) * 2 + 1);
-			_ = stringBuilder.AppendLine();
-			for (int i = 0; i < str.Length; i++) {
-				if (i % 100 == 0 && i != 0) {
-					_ = stringBuilder.AppendLine();
-				}
-
-				_ = stringBuilder.Append(str[i]);
+		/// <param name="enumType">The enumeration type.</param>
+		/// <returns>The enumeration underlying type.</returns>
+#if V1_0
+		public static Type GetEnumUnderlyingType(Type enumType) {
+			if (enumType is null) {
+				throw new ArgumentNullException(nameof(enumType));
 			}
 
-			_ = stringBuilder.AppendLine();
-			return stringBuilder.ToString();
+			if (!enumType.IsEnum) {
+				throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
+			}
+
+			FieldInfo[] fields = enumType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+			if (fields is null || fields.Length != 1) {
+				throw new ArgumentException("The Enum type should contain one and only one instance field.", nameof(enumType));
+			}
+
+			return fields[0].FieldType;
 		}
 #else
-		/// <summary>
-		/// Split up a long string into lines. Equivalent to `str.AddLineBreaksToLongString`.
-		/// </summary>
-		/// <param name="str">The string.</param>
-		/// <returns>The split-up string.</returns>
-		public static string AddLineBreaksToLongString(string str) => str.AddLineBreaksToLongString();
+		public static Type GetEnumUnderlyingType(Type enumType) =>
+			enumType is null ? throw new ArgumentNullException(nameof(enumType))
+			: enumType.GetEnumUnderlyingType();
 #endif
 
 		/// <summary>
-		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
+		/// Get the underlying type for the given enumeration.
 		/// </summary>
-		/// <param name="str">The string.</param>
-		/// <returns>The compressed string.</returns>
-		public static string RemoveLineBreaks(string str) =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-			new StringBuilder(str).Replace("\n", string.Empty).Replace("\r", string.Empty).ToString();
+		/// <param name="value">The enumeration.</param>
+		/// <returns>The underlying type.</returns>
+		public static Type GetEnumUnderlyingType(Enum value) =>
+			value is null ? throw new ArgumentNullException(nameof(value))
+			: GetEnumUnderlyingType(value.GetType());
+
+		/// <summary>
+		/// Check whether the given pawn is hostile to the player's faction.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static bool HostileToPlayer(Pawn pawn) =>
+			pawn != null
+			&& Faction.OfPlayerSilentFail != null
+			&& ((pawn.Faction is null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
+				: (pawn.Faction != Faction.OfPlayerSilentFail
+					&& pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+					&& (pawn.HostileTo(Faction.OfPlayerSilentFail)
+						|| DeadOrDowned(pawn)
+						&& HostileToPlayer(pawn.Faction))));
 #else
-			str.RemoveLineBreaks();
+		public static bool HostileToPlayer(Pawn? pawn) =>
+			pawn is not null
+			&& Faction.OfPlayerSilentFail is not null
+			&& ((pawn.Faction is null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
+				: (pawn.Faction != Faction.OfPlayerSilentFail
+					&& pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) is not null
+					&& (pawn.HostileTo(Faction.OfPlayerSilentFail)
+						|| DeadOrDowned(pawn)
+						&& HostileToPlayer(pawn.Faction))));
 #endif
 
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		/// <summary>
+		/// Check whether the given faction is hostile to the player's faction.
+		/// </summary>
+		/// <param name="faction">The faction.</param>
+		/// <returns>Whether the given faction is hostile to the player's faction.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static bool HostileToPlayer(Faction faction) =>
+			faction != null
+			&& Faction.OfPlayerSilentFail != null
+			&& faction != Faction.OfPlayerSilentFail
+			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+			&& faction.HostileTo(Faction.OfPlayerSilentFail);
+#else
+		public static bool HostileToPlayer(Faction? faction) =>
+			faction is not null
+			&& Faction.OfPlayerSilentFail is not null
+			&& faction != Faction.OfPlayerSilentFail
+			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) is not null
+			&& faction.HostileTo(Faction.OfPlayerSilentFail);
+#endif
+
+		/// <summary>
+		/// Equivalent to `Pawn.IsAnimal` for all versions of RimWorld.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>`Pawn.IsAnimal`.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+		public static bool IsAnimal(Pawn pawn) =>
+			pawn?.RaceProps?.Animal ?? false;
+#elif V1_6
+		public static bool IsAnimal(Pawn pawn) =>
+			pawn?.IsAnimal ?? false;
+#else
+		public static bool IsAnimal(Pawn? pawn) =>
+			pawn?.IsAnimal ?? false;
+#endif
+
+		/// <summary>
+		/// Equivalent to `Pawn.IsFreeNonSlaveColonist` for all versions of RimWorld.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>`Pawn.IsFreeNonSlaveColonist`.</returns>
+#if V1_0 || V1_1 || V1_2
+		public static bool IsFreeNonSlaveColonist(Pawn pawn) =>
+			pawn?.IsFreeColonist ?? false;
+#elif V1_3 || V1_4 || V1_5 || V1_6
+		public static bool IsFreeNonSlaveColonist(Pawn pawn) =>
+			pawn?.IsFreeNonSlaveColonist ?? false;
+#else
+		public static bool IsFreeNonSlaveColonist(Pawn? pawn) =>
+			pawn?.IsFreeNonSlaveColonist ?? false;
+#endif
+
+		/// <summary>
+		/// Determine whether or not a growth moment dialog is currently open.
+		/// </summary>
+		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
+		public static bool IsInGrowthMoment() =>
+#if V1_0 || V1_1 || V1_2 || V1_3
+			false;
+#elif V1_4 || V1_5 || V1_6
+			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
+#else
+
+			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() is not null;
+#endif
+
 		/// <summary>
 		/// Save a Boolean array. Almost equivalent to `DataExposeUtility.LookBoolArray`.
 		/// </summary>
 		/// <param name="arr">The array to save.</param>
 		/// <param name="elements">The number of elements in the array.</param>
 		/// <param name="label">The name of the array in the save data.</param>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		public static void LookBoolArray(ref bool[] arr, int elements, string label) {
 			if (Scribe.mode == LoadSaveMode.Saving && arr != null) {
 				if (arr.Length != elements) {
@@ -259,82 +306,132 @@ namespace Lakuna.BoundedRationality.Utility {
 			}
 		}
 #else
-		/// <summary>
-		/// Save a Boolean array. Equivalent to `DataExposeUtility.LookBoolArray`.
-		/// </summary>
-		/// <param name="arr">The array to save.</param>
-		/// <param name="elements">The number of elements in the array.</param>
-		/// <param name="label">The name of the array in the save data.</param>
-		public static void LookBoolArray(ref bool[] arr, int elements, string label) =>
+		public static void LookBoolArray(ref bool[]? arr, int elements, string label) =>
 			DataExposeUtility.LookBoolArray(ref arr, elements, label);
 #endif
 
 		/// <summary>
-		/// Determine whether the given pawn is dead or downed. Equivalent to `pawn.DeadOrDowned` for all versions of RimWorld.
+		/// Equivalent to `Pawn.IsPlayerControlled` for all versions of RimWorld. For checking whether or not a pawn belongs to a player-controlled pawn type, use `MiscellaneousUtility.IsPlayerControlled` instead.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether or not the pawn is dead or downed.</returns>
-		public static bool DeadOrDowned(Pawn pawn) =>
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-			pawn != null && (pawn.Dead || pawn.Downed);
+		/// <returns>`Pawn.IsPlayerControlled`.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3
+		public static bool PawnIsPlayerControlled(Pawn pawn) =>
+			pawn?.IsColonistPlayerControlled ?? false;
+#elif V1_4
+		public static bool PawnIsPlayerControlled(Pawn pawn) =>
+			(pawn?.IsColonistPlayerControlled ?? false)
+			|| (pawn?.IsColonyMechPlayerControlled ?? false);
+#elif V1_5
+		public static bool PawnIsPlayerControlled(Pawn pawn) =>
+			pawn?.IsPlayerControlled ?? false;
 #else
-			pawn?.DeadOrDowned ?? false;
+		public static bool PawnIsPlayerControlled(Pawn? pawn) =>
+			pawn?.IsPlayerControlled ?? false;
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3
+		/// <summary>
+		/// Get the pawn that is associated with the given skill record.
+		/// </summary>
+		/// <param name="skill">The skill record.</param>
+		/// <returns>The pawn that is associated with the given skill record.</returns>
+		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
+			PawnField.GetValue(skill) as Pawn;
+#elif V1_4 || V1_5 || V1_6
+		/// <summary>
+		/// Get the pawn that is associated with the given skill record.
+		/// </summary>
+		/// <param name="skill">The skill record.</param>
+		/// <returns>The pawn that is associated with the given skill record.</returns>
+		public static Pawn PawnOfSkillRecord(SkillRecord skill) =>
+			skill?.Pawn;
+#else
+		/// <summary>
+		/// Get the pawn that is associated with the given skill record.
+		/// </summary>
+		/// <param name="skill">The skill record.</param>
+		/// <returns>The pawn that is associated with the given skill record.</returns>
+		public static Pawn? PawnOfSkillRecord(SkillRecord? skill) =>
+			skill?.Pawn;
 #endif
 
 		/// <summary>
-		/// Check whether the given pawn is hostile to the player's faction.
+		/// Compress a long string into one line. Equivalent to `str.RemoveLineBreaks`.
 		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
-		public static bool HostileToPlayer(Pawn pawn) =>
-			pawn != null
-			&& ((pawn.Faction is null)
-				? pawn.HostileTo(Faction.OfPlayerSilentFail)
-				: (pawn.Faction != Faction.OfPlayerSilentFail
-					&& pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
-					&& (pawn.HostileTo(Faction.OfPlayerSilentFail)
-						|| DeadOrDowned(pawn) && HostileToPlayer(pawn.Faction))));
-
-		/// <summary>
-		/// Check whether the given faction is hostile to the player's faction.
-		/// </summary>
-		/// <param name="faction">The faction.</param>
-		/// <returns>Whether the given faction is hostile to the player's faction.</returns>
-		public static bool HostileToPlayer(Faction faction) =>
-			faction != null
-			&& faction != Faction.OfPlayerSilentFail
-			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
-			&& faction.HostileTo(Faction.OfPlayerSilentFail);
+		/// <param name="str">The string.</param>
+		/// <returns>The compressed string.</returns>
+		public static string RemoveLineBreaks(string str) =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+			new StringBuilder(str).Replace("\n", string.Empty).Replace("\r", string.Empty).ToString();
+#else
+			str.RemoveLineBreaks() ?? "null";
+#endif
 
 		/// <summary>
 		/// Get the type of the given pawn.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>The type of the pawn.</returns>
+#if V1_0 || V1_1 || V1_2
 		public static PawnType TypeOf(Pawn pawn) =>
 			(pawn is null) ? PawnType.Neutral
-			: ((IsFreeNonSlaveColonist(pawn) || IsAnimal(pawn) && pawn.Faction == Faction.OfPlayerSilentFail)
-#if V1_0 || V1_1 || V1_2
+			: ((IsFreeNonSlaveColonist(pawn)
+					|| IsAnimal(pawn)
+					&& Faction.OfPlayerSilentFail != null
+					&& pawn.Faction == Faction.OfPlayerSilentFail)
 				&& pawn.Faction == Faction.OfPlayerSilentFail
-#else
-				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
-#endif
-				|| BoundedRationalityMod.Settings.RememberFormerColonists && WasColonist(pawn)) ? PawnType.Colonist
-#if !(V1_0 || V1_1 || V1_2)
-			: pawn.IsSlaveOfColony ? PawnType.Slave
-#endif
+				|| (BoundedRationalityMod.Settings?.RememberFormerColonists ?? false)
+				&& WasColonist(pawn)) ? PawnType.Colonist
 			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
 			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
 			: IsAnimal(pawn) ? PawnType.WildAnimal
 			: HostileToPlayer(pawn) ? PawnType.Hostile
 			: PawnType.Neutral;
+#elif V1_3 || V1_4 || V1_5 || V1_6
+		public static PawnType TypeOf(Pawn pawn) =>
+			(pawn is null) ? PawnType.Neutral
+			: ((IsFreeNonSlaveColonist(pawn)
+					|| IsAnimal(pawn)
+					&& Faction.OfPlayerSilentFail != null
+					&& pawn.Faction == Faction.OfPlayerSilentFail)
+				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
+				|| (BoundedRationalityMod.Settings?.RememberFormerColonists ?? false)
+				&& WasColonist(pawn)) ? PawnType.Colonist
+			: pawn.IsSlaveOfColony ? PawnType.Slave
+			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
+			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
+			: IsAnimal(pawn) ? PawnType.WildAnimal
+			: HostileToPlayer(pawn) ? PawnType.Hostile
+			: PawnType.Neutral;
+#else
+		public static PawnType TypeOf(Pawn? pawn) =>
+			(pawn is null) ? PawnType.Neutral
+			: ((IsFreeNonSlaveColonist(pawn)
+					|| IsAnimal(pawn)
+					&& Faction.OfPlayerSilentFail is not null
+					&& pawn.Faction == Faction.OfPlayerSilentFail)
+				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
+				|| (BoundedRationalityMod.Settings?.RememberFormerColonists ?? false)
+				&& WasColonist(pawn)) ? PawnType.Colonist
+			: pawn.IsSlaveOfColony ? PawnType.Slave
+			: PawnIsPlayerControlled(pawn) ? PawnType.Controlled
+			: pawn.IsPrisonerOfColony ? PawnType.Prisoner
+			: IsAnimal(pawn) ? PawnType.WildAnimal
+			: HostileToPlayer(pawn) ? PawnType.Hostile
+			: PawnType.Neutral;
+#endif
 
 		/// <summary>
 		/// Get the type of the given faction.
 		/// </summary>
 		/// <param name="faction">The faction.</param>
 		/// <returns>The type of the faction.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static PawnType TypeOf(Faction faction) =>
+#else
+		public static PawnType TypeOf(Faction? faction) =>
+#endif
 			(faction is null) ? PawnType.Neutral
 			: (faction == Faction.OfPlayerSilentFail) ? PawnType.Colonist
 			: HostileToPlayer(faction) ? PawnType.Hostile
@@ -345,18 +442,30 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether the pawn is player-controlled.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsPlayerControlled(Pawn pawn) =>
 			pawn != null
 			&& IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
+#else
+		public static bool IsPlayerControlled(Pawn? pawn) =>
+			pawn is not null
+			&& IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
+#endif
 
 		/// <summary>
 		/// Determines whether the given faction is one that can be controlled by the player.
 		/// </summary>
 		/// <param name="faction">The faction.</param>
 		/// <returns>Whether the faction is player-controlled.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsPlayerControlled(Faction faction) =>
 			faction != null
 			&& IsPlayerControlled(TypeOf(faction));
+#else
+		public static bool IsPlayerControlled(Faction? faction) =>
+			faction is not null
+			&& IsPlayerControlled(TypeOf(faction));
+#endif
 
 		/// <summary>
 		/// Determines whether the given pawn type is one that can be controlled by the player.
@@ -365,7 +474,9 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="isAlive">Whether the pawn is alive.</param>
 		/// <returns>Whether the pawn type is player-controlled.</returns>
 		public static bool IsPlayerControlled(PawnType type, bool isAlive = true) =>
-			(type == PawnType.Colonist || type == PawnType.Controlled || type == PawnType.Slave)
+			(type == PawnType.Colonist
+				|| type == PawnType.Controlled
+				|| type == PawnType.Slave)
 			&& isAlive;
 
 		/// <summary>
@@ -373,16 +484,26 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn is a starting colonist.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsStartingColonist(Pawn pawn) =>
 			pawn != null
 			&& (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
+#else
+		public static bool IsStartingColonist(Pawn? pawn) =>
+			pawn is not null
+			&& (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
+#endif
 
 		/// <summary>
 		/// Determine whether or not the given pawn is related to any colonist.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn is related to any colonist.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsRelativeOfColonist(Pawn pawn) =>
+#else
+		public static bool IsRelativeOfColonist(Pawn? pawn) =>
+#endif
 			pawn?.relations?.RelatedPawns?.Any((other) => TypeOf(other) == PawnType.Colonist) ?? false;
 
 		/// <summary>
@@ -390,90 +511,79 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>Whether or not the given pawn's corpse was dead when the player discovered it.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsAncientCorpse(Pawn pawn) =>
 			pawn != null
 			&& pawn.Dead
 			&& IsAncientCorpse(pawn.Corpse);
+#else
+		public static bool IsAncientCorpse(Pawn? pawn) =>
+			pawn is not null
+			&& pawn.Dead
+			&& IsAncientCorpse(pawn.Corpse);
+#endif
 
 		/// <summary>
 		/// Determine whether or not the given corpse was dead when the player discovered it.
 		/// </summary>
 		/// <param name="corpse">The corpse.</param>
 		/// <returns>Whether or not the given corpse was dead when the player discovered it.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsAncientCorpse(Corpse corpse) =>
 			corpse != null
 			&& corpse.timeOfDeath <= 0;
+#else
+		public static bool IsAncientCorpse(Corpse? corpse) =>
+			corpse is not null
+			&& corpse.timeOfDeath <= 0;
+#endif
 
 		/// <summary>
 		/// Determine the number of ticks that the given pawn has spent as a colonist or colony animal.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>The number of ticks that the given pawn has spent as a colonist or colony animal.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static float TimeAsColonist(Pawn pawn) =>
+#else
+		public static float TimeAsColonist(Pawn? pawn) =>
+#endif
 			pawn?.records?.GetValue(RecordDefOf.TimeAsColonistOrColonyAnimal) ?? 0;
-
-		/// <summary>
-		/// Determine the number of ticks that the given pawn has spent as a prisoner.
-		/// </summary>
-		/// <param name="pawn">The pawn.</param>
-		/// <returns>The number of ticks that the given pawn has spent as a prisoner.</returns>
-		public static float TimeAsPrisoner(Pawn pawn) =>
-			pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0;
 
 		/// <summary>
 		/// Determine the number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.
 		/// </summary>
 		/// <param name="pawn">The pawn.</param>
 		/// <returns>The number of ticks that the given pawn has spent as either a colonist, colony animal, or prisoner.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static float TimeAsColonistOrPrisoner(Pawn pawn) =>
+#else
+		public static float TimeAsColonistOrPrisoner(Pawn? pawn) =>
+#endif
 			TimeAsColonist(pawn) + TimeAsPrisoner(pawn);
+
+		/// <summary>
+		/// Determine the number of ticks that the given pawn has spent as a prisoner.
+		/// </summary>
+		/// <param name="pawn">The pawn.</param>
+		/// <returns>The number of ticks that the given pawn has spent as a prisoner.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static float TimeAsPrisoner(Pawn pawn) =>
+#else
+		public static float TimeAsPrisoner(Pawn? pawn) =>
+#endif
+			pawn?.records?.GetValue(RecordDefOf.TimeAsPrisoner) ?? 0;
 
 		/// <summary>
 		/// Determine whether or not the given pawn is or has ever been a colonist.
 		/// </summary>
 		/// <param name="pawn">The pawn to check.</param>
 		/// <returns>Whether or not the given pawn is or has ever been a colonist.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool WasColonist(Pawn pawn) =>
+#else
+		public static bool WasColonist(Pawn? pawn) =>
+#endif
 			TimeAsColonist(pawn) > 0;
-
-		/// <summary>
-		/// Determine whether or not a growth moment dialog is currently open.
-		/// </summary>
-		/// <returns>Whether or not a growth moment dialog is currently open.</returns>
-		public static bool IsInGrowthMoment() =>
-#if V1_0 || V1_1 || V1_2 || V1_3
-			false;
-#else
-			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
-#endif
-
-		/// <summary>
-		/// Equivalent to `enumType.GetEnumUnderlyingType` for all runtimes.
-		/// </summary>
-		/// <param name="enumType">The enumeration type.</param>
-		/// <returns>The enumeration underlying type.</returns>
-#if V1_0
-		public static Type GetEnumUnderlyingType(Type enumType) {
-			if (!enumType.IsEnum) {
-				throw new ArgumentException("Type provided must be an Enum.", nameof(enumType));
-			}
-
-			FieldInfo[] fields = enumType.GetFields(BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
-			if (fields == null || fields.Length != 1) {
-				throw new ArgumentException("The Enum type should contain one and only one instance field.", nameof(enumType));
-			}
-
-			return fields[0].FieldType;
-		}
-#else
-		public static Type GetEnumUnderlyingType(Type enumType) => enumType.GetEnumUnderlyingType();
-#endif
-
-		/// <summary>
-		/// Get the underlying type for the given enumeration.
-		/// </summary>
-		/// <param name="value">The enumeration.</param>
-		/// <returns>The underlying type.</returns>
-		public static Type GetEnumUnderlyingType(Enum value) => GetEnumUnderlyingType(value.GetType());
 	}
 }

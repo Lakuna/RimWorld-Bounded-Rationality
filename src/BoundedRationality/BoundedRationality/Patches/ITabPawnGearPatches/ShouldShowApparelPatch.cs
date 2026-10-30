@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnGearPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Gear), "ShouldShowApparel")]
-	internal static class ShouldShowApparelPatch {
+	public static class ShouldShowApparelPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Pawn p, ref bool __result) =>

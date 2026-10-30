@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnRelationWorkerOverseerPatches {
 	[HarmonyPatch(typeof(PawnRelationWorker_Overseer), nameof(PawnRelationWorker_Overseer.Notify_PostRemovedByDeath))]
-	internal static class NotifyPostRemovedByDeathPatch {
+	public static class NotifyPostRemovedByDeathPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]

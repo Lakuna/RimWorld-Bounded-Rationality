@@ -15,7 +15,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.MainDesc))]
-	internal static class MainDescPatch {
+	public static class MainDescPatch {
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 		private static readonly FieldInfo AgeTrackerField = AccessTools.Field(typeof(Pawn), nameof(Pawn.ageTracker));

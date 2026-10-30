@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.StunHandlerPatches {
 	[HarmonyPatch(typeof(StunHandler), nameof(StunHandler.Notify_DamageApplied))]
-	internal static class NotifyDamageAppliedPatch {
+	public static class NotifyDamageAppliedPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(StunHandler), nameof(StunHandler.parent));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(Color), typeof(float) });

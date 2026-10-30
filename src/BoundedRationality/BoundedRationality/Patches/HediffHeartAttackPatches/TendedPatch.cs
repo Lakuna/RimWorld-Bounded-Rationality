@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffHeartAttackPatches {
 	[HarmonyPatch(typeof(Hediff_HeartAttack), nameof(Hediff_HeartAttack.Tended))]
-	internal static class TendedPatch {
+	public static class TendedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

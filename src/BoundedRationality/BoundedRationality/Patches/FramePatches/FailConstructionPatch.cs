@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.FramePatches {
 	[HarmonyPatch(typeof(Frame), nameof(Frame.FailConstruction))]
-	internal static class FailConstructionPatch {
+	public static class FailConstructionPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
 		[HarmonyTranspiler]

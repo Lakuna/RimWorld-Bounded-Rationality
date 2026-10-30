@@ -18,7 +18,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompMessageAboveSeverityPatche
 #else
 	[HarmonyPatch(typeof(HediffComp_MessageAboveSeverity), nameof(HediffComp_MessageAboveSeverity.CompPostTickInterval))]
 #endif
-	internal static class CompPostTickIntervalPatch {
+	public static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

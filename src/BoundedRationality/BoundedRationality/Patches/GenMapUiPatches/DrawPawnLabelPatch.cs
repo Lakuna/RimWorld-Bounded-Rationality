@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.GenMapUiPatches {
 	[HarmonyPatch(typeof(GenMapUI), nameof(GenMapUI.DrawPawnLabel), new Type[] { typeof(Pawn), typeof(Rect), typeof(float), typeof(float), typeof(Dictionary<string, string>), typeof(GameFont), typeof(bool), typeof(bool) })]
-	internal static class DrawPawnLabelPatch {
+	public static class DrawPawnLabelPatch {
 		private static readonly MethodInfo SummaryHealthPercentMethod = PatchUtility.PropertyGetter(typeof(SummaryHealthHandler), nameof(SummaryHealthHandler.SummaryHealthPercent));
 
 		[HarmonyPrefix]

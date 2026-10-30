@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.IdeoUiUtilityPatches {
 	[HarmonyPatch(typeof(IdeoUIUtility), nameof(IdeoUIUtility.DrawExtraThoughtInfoFromIdeo))]
-	internal static class DrawExtraThoughtInfoFromIdeoPatch {
+	public static class DrawExtraThoughtInfoFromIdeoPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 	}

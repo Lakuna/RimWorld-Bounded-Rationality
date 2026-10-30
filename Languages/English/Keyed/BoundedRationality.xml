@@ -2,7 +2,7 @@
 
 <LanguageData>
 	<!-- User interface. -->
-	<BR.BoundedRationality>Bounded Rationality</BR.BoundedRationality>
+	<BR.BoundedRationality>bounded rationality</BR.BoundedRationality>
 	<BR.LearningEnabled>learn about pawns over time?</BR.LearningEnabled>
 	<BR.LearningEnabled.Desc>knowledge will be gained over time rather than right away, according to the learning difficulty of each category</BR.LearningEnabled.Desc>
 	<BR.WarningDisabledBasicForStartingColonists>disabling basic information for starting colonists will disable the ability to randomize them</BR.WarningDisabledBasicForStartingColonists>

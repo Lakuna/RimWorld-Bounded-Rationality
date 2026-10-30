@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.NeedKillThirstPatches {
 	[HarmonyPatch(typeof(Need_KillThirst), nameof(Need_KillThirst.ShowOnNeedList), MethodType.Getter)]
-	internal static class ShowOnNeedListPatch {
+	public static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(ref bool __result, Pawn ___pawn) =>

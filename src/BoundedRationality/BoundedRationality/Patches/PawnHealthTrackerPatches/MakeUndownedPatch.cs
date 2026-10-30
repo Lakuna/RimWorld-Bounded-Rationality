@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnHealthTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_HealthTracker), "MakeUndowned")]
-	internal static class MakeUndownedPatch {
+	public static class MakeUndownedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_HealthTracker), "pawn");
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

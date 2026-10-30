@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectGiveHediffPatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_GiveHediff), "ApplyInner")]
-	internal static class ApplyInnerPatch {
+	public static class ApplyInnerPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
 		[HarmonyTranspiler]

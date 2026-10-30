@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.AnyRelations))]
-	internal static class AnyRelationsPatch {
+	public static class AnyRelationsPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Pawn selPawnForSocialInfo, ref bool __result) =>

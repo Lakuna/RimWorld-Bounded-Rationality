@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.WidgetsWorkPatches {
 	[HarmonyPatch(typeof(WidgetsWork), nameof(WidgetsWork.DrawWorkBoxFor))]
-	internal static class DrawWorkBoxForPatch {
+	public static class DrawWorkBoxForPatch {
 		private static readonly MethodInfo IdeoMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Ideo));
 
 #if !V1_3

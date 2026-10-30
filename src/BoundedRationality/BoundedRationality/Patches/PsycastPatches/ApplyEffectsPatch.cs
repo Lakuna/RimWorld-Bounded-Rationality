@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PsycastPatches {
 	[HarmonyPatch(typeof(Psycast), "ApplyEffects")]
-	internal static class ApplyEffectsPatch {
+	public static class ApplyEffectsPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

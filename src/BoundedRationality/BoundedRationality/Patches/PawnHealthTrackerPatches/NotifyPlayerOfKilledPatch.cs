@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnHealthTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.NotifyPlayerOfKilled))]
-	internal static class NotifyPlayerOfKilledPatch {
+	public static class NotifyPlayerOfKilledPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_HealthTracker), "pawn");
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

@@ -7,7 +7,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.TooltipUtilityPatches {
 	[HarmonyPatch(typeof(TooltipUtility), nameof(TooltipUtility.ShotCalculationTipString))]
-	internal static class ShotCalculationTipStringPatch {
+	public static class ShotCalculationTipStringPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(ref string __result) {

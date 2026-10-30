@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.RelationsUtilityPatches {
 	[HarmonyPatch(typeof(RelationsUtility), nameof(RelationsUtility.LabelWithBondInfo))]
-	internal static class LabelWithBondInfoPatch {
+	public static class LabelWithBondInfoPatch {
 		private static readonly MethodInfo DirectRelationExistsMethod = AccessTools.Method(typeof(Pawn_RelationsTracker), nameof(Pawn_RelationsTracker.DirectRelationExists));
 
 		[HarmonyTranspiler]

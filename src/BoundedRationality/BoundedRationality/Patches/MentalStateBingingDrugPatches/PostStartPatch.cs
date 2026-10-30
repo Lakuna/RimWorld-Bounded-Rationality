@@ -17,7 +17,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStateBingingDrugPatches {
 	[HarmonyPatch(typeof(MentalState_BingingDrug), nameof(MentalState_BingingDrug.PostStart))]
-	internal static class PostStartPatch {
+	public static class PostStartPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

@@ -11,7 +11,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "DrawSkillSummaries")]
-	internal static class DrawSkillSummariesPatch {
+	public static class DrawSkillSummariesPatch {
 		[HarmonyPrefix]
 		private static bool Prefix() => BoundedRationalityMod.Settings.AlwaysKnowStartingColonists || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, PawnType.Colonist);
 	}

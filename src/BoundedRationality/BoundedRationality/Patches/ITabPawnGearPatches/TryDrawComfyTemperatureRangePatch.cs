@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnGearPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Gear), "TryDrawComfyTemperatureRange")]
-	internal static class TryDrawComfyTemperatureRangePatch {
+	public static class TryDrawComfyTemperatureRangePatch {
 		private static readonly MethodInfo SelPawnForGearMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Gear), "SelPawnForGear");
 
 		[HarmonyPrefix]

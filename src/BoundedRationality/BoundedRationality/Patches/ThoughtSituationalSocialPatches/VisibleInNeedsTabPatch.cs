@@ -12,7 +12,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.ThoughtSituationalSocialPatches {
 	[HarmonyPatch(typeof(Thought_SituationalSocial), nameof(Thought_SituationalSocial.VisibleInNeedsTab), MethodType.Getter)]
-	internal static class VisibleInNeedsTabPatch {
+	public static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Thought_SituationalSocial __instance, ref bool __result) =>

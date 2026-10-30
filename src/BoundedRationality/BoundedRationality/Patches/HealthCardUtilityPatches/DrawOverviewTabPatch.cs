@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.HealthCardUtilityPatches {
 	[HarmonyPatch(typeof(HealthCardUtility), "DrawOverviewTab")]
-	internal static class DrawOverviewTabPatch {
+	public static class DrawOverviewTabPatch {
 		private static readonly MethodInfo DrawLeftRowMethod = AccessTools.Method(typeof(HealthCardUtility), "DrawLeftRow");
 
 		[HarmonyTranspiler]

@@ -18,7 +18,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStateHandlerPatches {
 	[HarmonyPatch(typeof(MentalStateHandler), nameof(MentalStateHandler.TryStartMentalState))]
-	internal static class TryStartMentalStatePatch {
+	public static class TryStartMentalStatePatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalStateHandler), "pawn");
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

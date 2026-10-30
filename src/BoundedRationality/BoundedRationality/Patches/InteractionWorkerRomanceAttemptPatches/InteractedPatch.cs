@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InteractionWorkerRomanceAttemptPatches {
 	[HarmonyPatch(typeof(InteractionWorker_RomanceAttempt), nameof(InteractionWorker_RomanceAttempt.Interacted))]
-	internal static class InteractedPatch {
+	public static class InteractedPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]

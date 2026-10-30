@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CorpsePatches {
 	[HarmonyPatch(typeof(Corpse), nameof(Corpse.GetInspectString))]
-	internal static class GetInspectStringPatch {
+	public static class GetInspectStringPatch {
 		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)

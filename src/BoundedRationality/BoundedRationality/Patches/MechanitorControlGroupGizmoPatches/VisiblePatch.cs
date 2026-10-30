@@ -9,7 +9,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.MechanitorControlGroupGizmoPatches {
 	[HarmonyPatch(typeof(MechanitorControlGroupGizmo), nameof(MechanitorControlGroupGizmo.Visible), MethodType.Getter)]
-	internal static class VisiblePatch {
+	public static class VisiblePatch {
 		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(MechanitorControlGroup), "tracker");
 
 		[HarmonyPostfix]

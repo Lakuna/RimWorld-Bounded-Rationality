@@ -25,7 +25,7 @@ using Verse.AI.Group;
 
 namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetInspectString))]
-	internal static class GetInspectStringPatch {
+	public static class GetInspectStringPatch {
 		private static readonly FieldInfo HealthField = AccessTools.Field(typeof(Pawn), nameof(Pawn.health));
 
 		private static readonly FieldInfo StancesField = AccessTools.Field(typeof(Pawn), nameof(Pawn.stances));

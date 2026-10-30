@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.FoodUtilityPatches {
 	[HarmonyPatch(typeof(FoodUtility), nameof(FoodUtility.AddFoodPoisoningHediff))]
-	internal static class AddFoodPoisoningHediffPatch {
+	public static class AddFoodPoisoningHediffPatch {
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
 		[HarmonyTranspiler]

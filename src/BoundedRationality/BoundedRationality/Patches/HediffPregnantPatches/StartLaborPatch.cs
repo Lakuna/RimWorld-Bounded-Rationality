@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffPregnantPatches {
 	[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.StartLabor))]
-	internal static class StartLaborPatch {
+	public static class StartLaborPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "FillTab")]
-	internal static class FillTabPatch {
+	public static class FillTabPatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 #if !V1_0

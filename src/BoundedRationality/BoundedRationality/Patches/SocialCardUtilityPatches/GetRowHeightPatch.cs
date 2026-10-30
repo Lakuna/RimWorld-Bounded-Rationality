@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), "GetRowHeight")]
-	internal static class GetRowHeightPatch {
+	public static class GetRowHeightPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Pawn selPawnForSocialInfo, ref float __result) {

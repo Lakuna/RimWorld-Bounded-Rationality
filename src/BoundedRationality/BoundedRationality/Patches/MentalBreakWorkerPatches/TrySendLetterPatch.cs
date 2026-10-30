@@ -11,7 +11,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalBreakWorkerPatches {
 	[HarmonyPatch(typeof(MentalBreakWorker), "TrySendLetter")]
-	internal static class TrySendLetterPatch {
+	public static class TrySendLetterPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn, ControlCategory.Letter);
 	}

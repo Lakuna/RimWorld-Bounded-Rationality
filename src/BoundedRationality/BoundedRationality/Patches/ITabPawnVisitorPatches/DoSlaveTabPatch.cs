@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoSlaveTab")]
-	internal static class DoSlaveTabPatch {
+	public static class DoSlaveTabPatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		private static readonly MethodInfo CurLevelMethod = PatchUtility.PropertyGetter(typeof(Need), nameof(Need.CurLevel));

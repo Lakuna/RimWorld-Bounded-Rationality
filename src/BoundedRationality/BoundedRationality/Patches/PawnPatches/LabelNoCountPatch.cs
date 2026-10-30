@@ -15,7 +15,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.LabelNoCount), MethodType.Getter)]
-	internal static class LabelNoCountPatch {
+	public static class LabelNoCountPatch {
 		private static readonly MethodInfo NameMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3 || V1_4)

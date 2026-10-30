@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnSocialPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Social), nameof(ITab_Pawn_Social.IsVisible), MethodType.Getter)]
-	internal static class IsVisiblePatch {
+	public static class IsVisiblePatch {
 		private static readonly MethodInfo SelPawnForSocialInfoMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Social), "SelPawnForSocialInfo");
 
 		[HarmonyPostfix]

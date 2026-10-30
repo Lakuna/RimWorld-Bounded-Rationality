@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnLogPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Log), "FillTab")]
-	internal static class FillTabPatch {
+	public static class FillTabPatch {
 		private static readonly MethodInfo SelPawnForCombatInfoMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Log), "SelPawnForCombatInfo");
 
 		[HarmonyPrefix]

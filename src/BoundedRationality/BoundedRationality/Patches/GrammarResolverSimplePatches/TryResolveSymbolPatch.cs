@@ -15,7 +15,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.GrammarResolverSimplePatches {
 	[HarmonyPatch(typeof(GrammarResolverSimple), "TryResolveSymbol")]
-	internal static class LabelShortPatch {
+	public static class LabelShortPatch {
 		private static readonly MethodInfo NameMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.Name));
 
 		[HarmonyTranspiler]

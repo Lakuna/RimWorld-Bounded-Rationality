@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnRelationUtilityPatches {
 	[HarmonyPatch(typeof(PawnRelationUtility), nameof(PawnRelationUtility.Notify_PawnsSeenByPlayer_Letter))]
-	internal static class NotifyPawnsSeenByPlayerLetterPatch {
+	public static class NotifyPawnsSeenByPlayerLetterPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(IEnumerable<Pawn> seenPawns) {
 			foreach (Pawn pawn in seenPawns) {

@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HealthCardUtilityPatches {
 	[HarmonyPatch(typeof(HealthCardUtility), nameof(HealthCardUtility.DrawHediffListing))]
-	internal static class DrawHediffListingPatch {
+	public static class DrawHediffListingPatch {
 		private static readonly MethodInfo BleedRateTotalMethod = PatchUtility.PropertyGetter(typeof(HediffSet), nameof(HediffSet.BleedRateTotal));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)

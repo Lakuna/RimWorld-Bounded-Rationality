@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SkillRecordPatches {
 	[HarmonyPatch(typeof(SkillRecord), nameof(SkillRecord.Learn))]
-	internal static class LearnPatch {
+	public static class LearnPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(SkillRecord), "pawn");
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

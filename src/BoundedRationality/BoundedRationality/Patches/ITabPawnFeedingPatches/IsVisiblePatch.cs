@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnFeedingPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Feeding), nameof(ITab_Pawn_Feeding.IsVisible), MethodType.Getter)]
-	internal static class IsVisiblePatch {
+	public static class IsVisiblePatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPostfix]

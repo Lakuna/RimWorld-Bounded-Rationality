@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoPrisonerTab")]
-	internal static class DoPrisonerTabPatch {
+	public static class DoPrisonerTabPatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		private static readonly MethodInfo InitiatePrisonBreakMtbDaysMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.InitiatePrisonBreakMtbDays));

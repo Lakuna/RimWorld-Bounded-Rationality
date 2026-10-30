@@ -21,7 +21,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnHealthTrackerPatches {
 #else
 	[HarmonyPatch(typeof(Pawn_HealthTracker), nameof(Pawn_HealthTracker.HealthTickInterval))]
 #endif
-	internal static class HealthTickIntervalPatch {
+	public static class HealthTickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_HealthTracker), "pawn");
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

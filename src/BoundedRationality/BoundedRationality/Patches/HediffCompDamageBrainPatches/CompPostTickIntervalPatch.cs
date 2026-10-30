@@ -16,7 +16,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompDamageBrainPatches {
 #else
 	[HarmonyPatch(typeof(HediffComp_DamageBrain), nameof(HediffComp_DamageBrain.CompPostTickInterval))]
 #endif
-	internal static class CompPostTickIntervalPatch {
+	public static class CompPostTickIntervalPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

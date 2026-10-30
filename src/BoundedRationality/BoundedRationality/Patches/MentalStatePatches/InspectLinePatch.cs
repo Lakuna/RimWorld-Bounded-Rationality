@@ -13,7 +13,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStatePatches {
 	[HarmonyPatch(typeof(MentalState), nameof(MentalState.InspectLine), MethodType.Getter)]
-	internal static class InspectLinePatch {
+	public static class InspectLinePatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(MentalState __instance, ref string __result) {

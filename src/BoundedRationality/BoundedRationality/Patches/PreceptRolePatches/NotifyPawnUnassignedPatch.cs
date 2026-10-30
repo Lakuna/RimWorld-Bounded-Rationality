@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PreceptRolePatches {
 	[HarmonyPatch(typeof(Precept_Role), nameof(Precept_Role.Notify_PawnUnassigned))]
-	internal static class NotifyPawnUnassignedPatch {
+	public static class NotifyPawnUnassignedPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]

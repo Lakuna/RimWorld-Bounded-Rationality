@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawPawnCertainty))]
-	internal static class DrawPawnCertaintyPatch {
+	public static class DrawPawnCertaintyPatch {
 		private static readonly MethodInfo CertaintyChangePerDayMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.CertaintyChangePerDay));
 
 		private static readonly MethodInfo CertaintyMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));

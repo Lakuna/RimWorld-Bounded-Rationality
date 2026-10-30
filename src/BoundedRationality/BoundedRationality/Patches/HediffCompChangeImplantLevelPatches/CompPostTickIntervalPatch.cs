@@ -16,7 +16,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompChangeImplantLevelPatches 
 #else
 	[HarmonyPatch(typeof(HediffComp_ChangeImplantLevel), nameof(HediffComp_ChangeImplantLevel.CompPostTickInterval))]
 #endif
-	internal static class CompPostTickIntervalPatch {
+	public static class CompPostTickIntervalPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
 
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

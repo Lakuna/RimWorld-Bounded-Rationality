@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 	[HarmonyPatch(typeof(SocialCardUtility), nameof(SocialCardUtility.DrawPawnRole))]
-	internal static class DrawPawnRolePatch {
+	public static class DrawPawnRolePatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 	}

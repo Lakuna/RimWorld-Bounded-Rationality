@@ -15,7 +15,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffGiverHeatPatches {
 	[HarmonyPatch(typeof(HediffGiver_Heat), nameof(HediffGiver_Heat.OnIntervalPassed))]
-	internal static class OnIntervalPassedPatch {
+	public static class OnIntervalPassedPatch {
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));
 
 		[HarmonyTranspiler]

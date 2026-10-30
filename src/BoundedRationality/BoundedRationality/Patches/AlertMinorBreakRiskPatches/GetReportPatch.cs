@@ -12,7 +12,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertMinorBreakRiskPatches {
 	[HarmonyPatch(typeof(Alert_MinorBreakRisk), nameof(Alert_MinorBreakRisk.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 #if V1_0

@@ -12,7 +12,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.IdeoUiUtilityPatches {
 	[HarmonyPatch(typeof(IdeoUIUtility), nameof(IdeoUIUtility.DrawIdeoPlate))]
-	internal static class DrawIdeoPlatePatch {
+	public static class DrawIdeoPlatePatch {
 		private static readonly MethodInfo CertaintyMethod = PatchUtility.PropertyGetter(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.Certainty));
 
 		[HarmonyTranspiler]

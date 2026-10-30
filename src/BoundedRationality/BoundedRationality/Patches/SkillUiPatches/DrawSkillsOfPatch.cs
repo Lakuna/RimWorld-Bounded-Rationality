@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.SkillUiPatches {
 	[HarmonyPatch(typeof(SkillUI), nameof(SkillUI.DrawSkillsOf))]
-	internal static class DrawSkillsOfPatch {
+	public static class DrawSkillsOfPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn p) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, p);
 	}

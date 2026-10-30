@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffDeathRefusalPatches {
 	[HarmonyPatch(typeof(Hediff_DeathRefusal), nameof(Hediff_DeathRefusal.Notify_PawnDied))]
-	internal static class NotifyPawnDiedPatch {
+	public static class NotifyPawnDiedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

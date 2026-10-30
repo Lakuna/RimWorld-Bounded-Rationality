@@ -17,7 +17,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.JobDriverCarryGenepackToContainerPatches {
 	[HarmonyPatch(typeof(JobDriver_CarryGenepackToContainer), "MakeNewToils")]
-	internal static class MakeNewToilsPatch {
+	public static class MakeNewToilsPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(JobDriver), nameof(JobDriver.pawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

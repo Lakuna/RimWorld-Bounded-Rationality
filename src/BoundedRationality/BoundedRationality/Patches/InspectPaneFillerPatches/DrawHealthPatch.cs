@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), nameof(InspectPaneFiller.DrawHealth))]
-	internal static class DrawHealthPatch {
+	public static class DrawHealthPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Thing t) => !(t is Pawn pawn) || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn);
 	}

@@ -14,7 +14,7 @@ using UnityEngine;
 
 namespace Lakuna.BoundedRationality.Patches.SkillUiPatches {
 	[HarmonyPatch(typeof(SkillUI), nameof(SkillUI.DrawSkill), new Type[] { typeof(SkillRecord), typeof(Rect), typeof(SkillUI.SkillDrawMode), typeof(string) })]
-	internal static class DrawSkillPatch {
+	public static class DrawSkillPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(SkillRecord skill) => KnowledgeUtility.IsSkillKnown(skill);
 	}

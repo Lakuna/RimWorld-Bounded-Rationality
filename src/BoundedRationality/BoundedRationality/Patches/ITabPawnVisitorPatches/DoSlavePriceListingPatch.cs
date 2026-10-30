@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoSlavePriceListing")]
-	internal static class DoSlavePriceListingPatch {
+	public static class DoSlavePriceListingPatch {
 		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPrefix]

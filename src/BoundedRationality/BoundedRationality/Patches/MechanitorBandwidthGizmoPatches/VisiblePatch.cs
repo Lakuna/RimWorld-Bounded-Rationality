@@ -9,7 +9,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.MechanitorBandwidthGizmoPatches {
 	[HarmonyPatch(typeof(MechanitorBandwidthGizmo), nameof(MechanitorBandwidthGizmo.Visible), MethodType.Getter)]
-	internal static class VisiblePatch {
+	public static class VisiblePatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(ref bool __result, Pawn_MechanitorTracker ___tracker) =>

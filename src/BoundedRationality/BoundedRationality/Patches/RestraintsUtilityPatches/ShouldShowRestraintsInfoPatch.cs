@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.RestraintsUtilityPatches {
 	[HarmonyPatch(typeof(RestraintsUtility), nameof(RestraintsUtility.ShouldShowRestraintsInfo))]
-	internal static class ShouldShowRestraintsInfoPatch {
+	public static class ShouldShowRestraintsInfoPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Pawn pawn, ref bool __result) =>

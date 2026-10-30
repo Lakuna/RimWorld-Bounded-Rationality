@@ -10,7 +10,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertNeedJoySourcesPatches {
 	[HarmonyPatch(typeof(Alert_NeedJoySources), nameof(Alert_NeedJoySources.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) => __result = __result.active && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, PawnType.Colonist, ControlCategory.Alert);
 	}

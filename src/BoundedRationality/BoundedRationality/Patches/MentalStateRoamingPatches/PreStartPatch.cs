@@ -13,7 +13,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStateRoamingPatches {
 	[HarmonyPatch(typeof(MentalState_Roaming), nameof(MentalState_Roaming.PreStart))]
-	internal static class PreStartPatch {
+	public static class PreStartPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

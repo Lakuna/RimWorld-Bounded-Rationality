@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCubeInterestPatches {
 	[HarmonyPatch(typeof(Hediff_CubeInterest), "UpdateSculptures")]
-	internal static class UpdateSculpturesPatch {
+	public static class UpdateSculpturesPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

@@ -10,7 +10,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.InspirationPatches {
 	[HarmonyPatch(typeof(Inspiration), "AddEndMessage")]
-	internal static class AddEndMessagePatch {
+	public static class AddEndMessagePatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Inspiration __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, __instance.pawn, ControlCategory.Message);
 	}

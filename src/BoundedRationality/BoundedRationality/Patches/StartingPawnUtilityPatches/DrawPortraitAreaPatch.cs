@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.DrawPortraitArea))]
-	internal static class DrawPortraitAreaPatch {
+	public static class DrawPortraitAreaPatch {
 		private static readonly MethodInfo AnyMethod = SymbolExtensions.GetMethodInfo((List<ThingDefCount> list) => list.Any());
 
 		[HarmonyTranspiler]

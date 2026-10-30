@@ -7,7 +7,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.StartingPawnUtilityPatches {
 	[HarmonyPatch(typeof(StartingPawnUtility), nameof(StartingPawnUtility.DrawSkillSummaries))]
-	internal static class DrawSkillSummariesPatch {
+	public static class DrawSkillSummariesPatch {
 		[HarmonyPrefix]
 		private static bool Prefix() => BoundedRationalityMod.Settings.AlwaysKnowStartingColonists || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, PawnType.Colonist);
 	}

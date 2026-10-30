@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.PawnInteractionsTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_InteractionsTracker), nameof(Pawn_InteractionsTracker.StartSocialFight))]
-	internal static class StartSocialFightPatch {
+	public static class StartSocialFightPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_InteractionsTracker), "pawn");
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

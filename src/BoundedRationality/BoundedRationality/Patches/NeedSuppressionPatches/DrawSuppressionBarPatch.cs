@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.NeedSuppressionPatches {
 	[HarmonyPatch(typeof(Need_Suppression), nameof(Need_Suppression.DrawSuppressionBar))]
-	internal static class DrawSuppressionBarPatch {
+	public static class DrawSuppressionBarPatch {
 		[HarmonyPrefix]
 #pragma warning disable CA1707
 		private static bool Prefix(Pawn ___pawn) =>

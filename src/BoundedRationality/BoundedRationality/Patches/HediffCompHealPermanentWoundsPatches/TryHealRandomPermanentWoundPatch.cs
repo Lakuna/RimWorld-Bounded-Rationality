@@ -21,7 +21,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompHealPermanentWoundsPatches
 #else
 	[HarmonyPatch(typeof(HediffComp_HealPermanentWounds), nameof(HediffComp_HealPermanentWounds.TryHealRandomPermanentWound))]
 #endif
-	internal static class TryHealRandomPermanentWoundPatch {
+	public static class TryHealRandomPermanentWoundPatch {
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
 		[HarmonyTranspiler]

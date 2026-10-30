@@ -12,7 +12,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertNeedWarmClothesPatches {
 	[HarmonyPatch(typeof(Alert_NeedWarmClothes), nameof(Alert_NeedWarmClothes.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 #if V1_0

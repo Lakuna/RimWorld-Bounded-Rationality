@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnIdeoTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_IdeoTracker), nameof(Pawn_IdeoTracker.IdeoConversionAttempt))]
-	internal static class IdeoConversionAttemptPatch {
+	public static class IdeoConversionAttemptPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_IdeoTracker), "pawn");
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

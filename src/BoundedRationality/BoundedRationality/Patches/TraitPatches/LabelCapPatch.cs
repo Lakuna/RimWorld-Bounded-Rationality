@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.LabelCap), MethodType.Getter)]
-	internal static class LabelCapPatch {
+	public static class LabelCapPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Trait __instance, ref string __result) {

@@ -18,7 +18,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompGiveHediffLungRotPatches {
 #else
 	[HarmonyPatch(typeof(HediffComp_GiveHediffLungRot), nameof(HediffComp_GiveHediffLungRot.CompPostTickInterval))]
 #endif
-	internal static class CompPostTickIntervalPatch {
+	public static class CompPostTickIntervalPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
 
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

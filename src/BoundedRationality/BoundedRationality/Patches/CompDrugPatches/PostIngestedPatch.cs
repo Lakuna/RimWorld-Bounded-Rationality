@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CompDrugPatches {
 	[HarmonyPatch(typeof(CompDrug), nameof(CompDrug.PostIngested))]
-	internal static class PostIngestedPatch {
+	public static class PostIngestedPatch {
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });
 
 		[HarmonyTranspiler]

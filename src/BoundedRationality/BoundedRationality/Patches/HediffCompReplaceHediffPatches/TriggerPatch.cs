@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompReplaceHediffPatches {
 	[HarmonyPatch(typeof(HediffComp_ReplaceHediff), nameof(HediffComp_ReplaceHediff.Trigger))]
-	internal static class TriggerPatch {
+	public static class TriggerPatch {
 		private static readonly FieldInfo ParentField = AccessTools.Field(typeof(HediffComp), nameof(HediffComp.parent));
 
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));

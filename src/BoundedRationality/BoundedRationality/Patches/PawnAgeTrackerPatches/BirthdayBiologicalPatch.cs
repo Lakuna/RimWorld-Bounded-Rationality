@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnAgeTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_AgeTracker), "BirthdayBiological")]
-	internal static class BirthdayBiologicalPatch {
+	public static class BirthdayBiologicalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_AgeTracker), "pawn");
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

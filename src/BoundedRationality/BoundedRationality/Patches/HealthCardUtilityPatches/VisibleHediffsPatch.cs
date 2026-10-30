@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HealthCardUtilityPatches {
 	[HarmonyPatch(typeof(HealthCardUtility), "VisibleHediffs")]
-	internal static class VisibleHediffsPatch {
+	public static class VisibleHediffsPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Pawn pawn, ref IEnumerable<Hediff> __result) {

@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawAreaAllowed")]
-	internal static class DrawAreaAllowedPatch {
+	public static class DrawAreaAllowedPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control); // Can be clicked to set allowed area.
 	}

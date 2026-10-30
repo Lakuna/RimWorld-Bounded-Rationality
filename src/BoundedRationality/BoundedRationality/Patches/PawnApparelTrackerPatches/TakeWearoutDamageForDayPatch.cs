@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.PawnApparelTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_ApparelTracker), "TakeWearoutDamageForDay")]
-	internal static class TakeWearoutDamageForDayPatch {
+	public static class TakeWearoutDamageForDayPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_ApparelTracker), nameof(Pawn_ApparelTracker.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

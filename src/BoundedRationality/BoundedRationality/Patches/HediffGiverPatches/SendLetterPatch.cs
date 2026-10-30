@@ -10,7 +10,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffGiverPatches {
 	[HarmonyPatch(typeof(HediffGiver), "SendLetter")]
-	internal static class SendLetterPatch {
+	public static class SendLetterPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, ControlCategory.Letter);
 	}

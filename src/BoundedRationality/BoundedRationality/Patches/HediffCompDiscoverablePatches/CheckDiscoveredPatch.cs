@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompDiscoverablePatches {
 	[HarmonyPatch(typeof(HediffComp_Discoverable), "CheckDiscovered")]
-	internal static class CheckDiscoveredPatch {
+	public static class CheckDiscoveredPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

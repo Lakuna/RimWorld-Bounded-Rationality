@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.PawnStoryTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.TitleShort), MethodType.Getter)]
-	internal static class TitleShortPatch {
+	public static class TitleShortPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_StoryTracker), "pawn");
 
 		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));

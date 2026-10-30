@@ -9,7 +9,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.GizmoGrowthTierPatches {
 	[HarmonyPatch(typeof(Gizmo_GrowthTier), nameof(Gizmo_GrowthTier.Visible), MethodType.Getter)]
-	internal static class VisiblePatch {
+	public static class VisiblePatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(ref bool __result, Pawn ___child) =>

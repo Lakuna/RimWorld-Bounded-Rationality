@@ -9,7 +9,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.AlertPsychicBondedSeparatedPatches {
 	[HarmonyPatch(typeof(Alert_PsychicBondedSeparated), nameof(Alert_PsychicBondedSeparated.GetReport))]
-	internal static class GetReportPatch {
+	public static class GetReportPatch {
 		[HarmonyPostfix]
 		private static void Postfix(ref AlertReport __result) {
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) =>

@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.NeedRestPatches {
 	[HarmonyPatch(typeof(Need_Rest), nameof(Need_Rest.NeedInterval))]
-	internal static class NeedIntervalPatch {
+	public static class NeedIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Need), "pawn");
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

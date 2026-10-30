@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.TraitPatches {
 	[HarmonyPatch(typeof(Trait), nameof(Trait.TipString))]
-	internal static class TipStringPatch {
+	public static class TipStringPatch {
 #if !(V1_0 || V1_1 || V1_2)
 		private static readonly MethodInfo GetAffectedIssuesMethod = AccessTools.Method(typeof(TraitDegreeData), nameof(TraitDegreeData.GetAffectedIssues));
 

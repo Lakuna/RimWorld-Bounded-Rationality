@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CompAbilityEffectCoagulatePatches {
 	[HarmonyPatch(typeof(CompAbilityEffect_Coagulate), nameof(CompAbilityEffect_Coagulate.Apply))]
-	internal static class ApplyPatch {
+	public static class ApplyPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(LocalTargetInfo), nameof(LocalTargetInfo.Pawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

@@ -7,7 +7,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.ThoughtMemoryPatches {
 	[HarmonyPatch(typeof(Thought_Memory), nameof(Thought_Memory.VisibleInNeedsTab), MethodType.Getter)]
-	internal static class VisibleInNeedsTabPatch {
+	public static class VisibleInNeedsTabPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Thought_Memory __instance, ref bool __result) {

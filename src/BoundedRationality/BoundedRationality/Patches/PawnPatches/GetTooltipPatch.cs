@@ -15,7 +15,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 	[HarmonyPatch(typeof(Pawn), nameof(Pawn.GetTooltip))]
-	internal static class GetTooltipPatch {
+	public static class GetTooltipPatch {
 		private static readonly FieldInfo GenderField = AccessTools.Field(typeof(Pawn), nameof(Pawn.gender));
 
 		private static readonly FieldInfo EquipmentField = AccessTools.Field(typeof(Pawn), nameof(Pawn.equipment));

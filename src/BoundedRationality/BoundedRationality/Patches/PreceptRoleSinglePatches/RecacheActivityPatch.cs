@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PreceptRoleSinglePatches {
 	[HarmonyPatch(typeof(Precept_RoleSingle), nameof(Precept_RoleSingle.RecacheActivity))]
-	internal static class RecacheActivityPatch {
+	public static class RecacheActivityPatch {
 		private static readonly MethodInfo OfPlayerSilentFailMethod = PatchUtility.PropertyGetter(typeof(Faction), nameof(Faction.OfPlayerSilentFail));
 
 #if V1_3 || V1_4

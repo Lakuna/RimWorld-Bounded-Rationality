@@ -10,7 +10,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnAgeTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_AgeTracker), nameof(Pawn_AgeTracker.AgeTooltipString), MethodType.Getter)]
-	internal static class AgeTooltipStringPatch {
+	public static class AgeTooltipStringPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(ref string __result, Pawn ___pawn) {

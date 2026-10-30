@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawTimetableSetting")]
-	internal static class DrawTimetableSettingPatch {
+	public static class DrawTimetableSettingPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 	}

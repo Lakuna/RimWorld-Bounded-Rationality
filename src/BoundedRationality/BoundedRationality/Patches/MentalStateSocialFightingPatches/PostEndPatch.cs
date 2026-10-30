@@ -17,7 +17,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStateSocialFightingPatches {
 	[HarmonyPatch(typeof(MentalState_SocialFighting), nameof(MentalState_SocialFighting.PostEnd))]
-	internal static class PostEndPatch {
+	public static class PostEndPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

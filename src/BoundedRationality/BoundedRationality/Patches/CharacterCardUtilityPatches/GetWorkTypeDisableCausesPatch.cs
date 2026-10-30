@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), "GetWorkTypeDisableCauses")]
-	internal static class GetWorkTypeDisableCausesPatch {
+	public static class GetWorkTypeDisableCausesPatch {
 #if V1_1 || V1_2 || V1_3
 		private static readonly FieldInfo AdulthoodField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.adulthood));
 

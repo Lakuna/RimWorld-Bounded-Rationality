@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
-	internal static class DrawCharacterCardPatch {
+	public static class DrawCharacterCardPatch {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		private static readonly MethodInfo ToStringFullMethod = PatchUtility.PropertyGetter(typeof(Name), nameof(Name.ToStringFull));
 

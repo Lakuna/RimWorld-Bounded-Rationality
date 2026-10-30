@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.MainTabWindowInspectPatches {
 	[HarmonyPatch(typeof(MainTabWindow_Inspect), nameof(MainTabWindow_Inspect.DoInspectPaneButtons))]
-	internal static class DoInspectPaneButtonsPatch {
+	public static class DoInspectPaneButtonsPatch {
 		private static readonly MethodInfo SelectorMethod = PatchUtility.PropertyGetter(typeof(Find), nameof(Find.Selector));
 
 		private static readonly MethodInfo SingleSelectedThingMethod = PatchUtility.PropertyGetter(typeof(Selector), nameof(Selector.SingleSelectedThing));

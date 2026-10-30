@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompDisappearsPatches {
 	[HarmonyPatch(typeof(HediffComp_Disappears), nameof(HediffComp_Disappears.CompPostPostRemoved))]
-	internal static class CompPostPostRemovedPatch {
+	public static class CompPostPostRemovedPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnRelationsTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_RelationsTracker), "AffectBondedAnimalsOnMyDeath")]
-	internal static class AffectBondedAnimalsOnMyDeathPatch {
+	public static class AffectBondedAnimalsOnMyDeathPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_RelationsTracker), "pawn");
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

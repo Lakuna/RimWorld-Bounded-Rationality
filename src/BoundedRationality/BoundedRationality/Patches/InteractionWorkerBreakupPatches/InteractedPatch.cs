@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InteractionWorkerBreakupPatches {
 	[HarmonyPatch(typeof(InteractionWorker_Breakup), nameof(InteractionWorker_Breakup.Interacted))]
-	internal static class InteractedPatch {
+	public static class InteractedPatch {
 		[HarmonyPostfix]
 		private static void Postfix(
 			Pawn initiator,

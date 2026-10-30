@@ -15,7 +15,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.RelationsUtilityPatches {
 	[HarmonyPatch(typeof(RelationsUtility), nameof(RelationsUtility.TryDevelopBondRelation))]
-	internal static class TryDevelopBondRelationPatch {
+	public static class TryDevelopBondRelationPatch {
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));
 
 		[HarmonyTranspiler]

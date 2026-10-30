@@ -10,7 +10,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.TimeSlowerPatches {
 	[HarmonyPatch(typeof(TimeSlower), nameof(TimeSlower.SignalForceNormalSpeed))]
-	internal static class SignalForceNormalSpeedPatch {
+	public static class SignalForceNormalSpeedPatch {
 		[HarmonyPrefix]
 		private static bool Prefix() => !BoundedRationalityMod.Settings.PreventForcedSpeed || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, PawnType.Colonist);
 	}

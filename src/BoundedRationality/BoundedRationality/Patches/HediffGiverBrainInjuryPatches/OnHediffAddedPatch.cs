@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffGiverBrainInjuryPatches {
 	[HarmonyPatch(typeof(HediffGiver_BrainInjury), nameof(HediffGiver_BrainInjury.OnHediffAdded))]
-	internal static class OnHediffAddedPatch {
+	public static class OnHediffAddedPatch {
 #if V1_0
 		private static readonly MethodInfo ReceiveLetterMethod = AccessTools.Method(typeof(LetterStack), nameof(LetterStack.ReceiveLetter), new Type[] { typeof(string), typeof(string), typeof(LetterDef), typeof(LookTargets), typeof(Faction), typeof(string) });
 #elif V1_1 || V1_2 || V1_3 || V1_4

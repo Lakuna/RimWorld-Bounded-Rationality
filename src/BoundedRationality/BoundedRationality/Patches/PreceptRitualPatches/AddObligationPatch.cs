@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PreceptRitualPatches {
 	[HarmonyPatch(typeof(Precept_Ritual), nameof(Precept_Ritual.AddObligation))]
-	internal static class AddObligationPatch {
+	public static class AddObligationPatch {
 		private static readonly MethodInfo OfPlayerSilentFailMethod = PatchUtility.PropertyGetter(typeof(Faction), nameof(Faction.OfPlayerSilentFail));
 
 #if V1_3 || V1_4

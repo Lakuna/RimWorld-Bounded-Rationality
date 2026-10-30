@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.ITabPawnGearPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Gear), "TryDrawMassInfo")]
-	internal static class TryDrawMassInfoPatch {
+	public static class TryDrawMassInfoPatch {
 		private static readonly MethodInfo SelPawnForGearMethod = PatchUtility.PropertyGetter(typeof(ITab_Pawn_Gear), "SelPawnForGear");
 
 		[HarmonyPrefix]

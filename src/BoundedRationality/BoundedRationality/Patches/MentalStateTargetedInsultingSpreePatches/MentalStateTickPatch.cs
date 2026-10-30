@@ -16,7 +16,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.MentalStateTargetedInsultingSpreePatches {
 	[HarmonyPatch(typeof(MentalState_TargetedInsultingSpree), nameof(MentalState_TargetedInsultingSpree.MentalStateTick))]
-	internal static class MentalStateTickPatch {
+	public static class MentalStateTickPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(MentalState), nameof(MentalState.pawn));
 
 		private static readonly MethodInfo MessageMethod = AccessTools.Method(typeof(Messages), nameof(Messages.Message), new Type[] { typeof(string), typeof(LookTargets), typeof(MessageTypeDef), typeof(bool) });

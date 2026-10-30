@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.GenLabelPatches {
 	[HarmonyPatch(typeof(GenLabel), nameof(GenLabel.BestKindLabel), new Type[] { typeof(Pawn), typeof(bool), typeof(bool), typeof(bool), typeof(int) })]
-	internal static class BestKindLabelPatch {
+	public static class BestKindLabelPatch {
 		[HarmonyPrefix]
 		private static void Prefix(Pawn pawn, ref bool mustNoteGender, ref bool mustNoteLifeStage) {
 			bool basic = KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);

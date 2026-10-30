@@ -20,7 +20,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.ToilsInterpersonalPatches {
 	[HarmonyPatch(typeof(Toils_Interpersonal), nameof(Toils_Interpersonal.TryTrain))]
-	internal static class TryTrainPatch {
+	public static class TryTrainPatch {
 		private static readonly FieldInfo ActorField = AccessTools.Field(typeof(Toil), nameof(Toil.actor));
 
 		private static readonly FieldInfo JobsField = AccessTools.Field(typeof(Pawn), nameof(Pawn.jobs));

@@ -21,7 +21,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffPregnantPatches {
 #else
 	[HarmonyPatch(typeof(Hediff_Pregnant), nameof(Hediff_Pregnant.TickInterval))]
 #endif
-	internal static class TickIntervalPatch {
+	public static class TickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

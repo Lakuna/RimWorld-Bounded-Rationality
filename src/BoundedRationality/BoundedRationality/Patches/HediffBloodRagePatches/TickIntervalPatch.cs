@@ -16,7 +16,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffBloodRagePatches {
 #else
 	[HarmonyPatch(typeof(Hediff_BloodRage), nameof(Hediff_BloodRage.TickInterval))]
 #endif
-	internal static class TickIntervalPatch {
+	public static class TickIntervalPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo MessageShowAllowedMethod = AccessTools.Method(typeof(MessagesRepeatAvoider), nameof(MessagesRepeatAvoider.MessageShowAllowed));

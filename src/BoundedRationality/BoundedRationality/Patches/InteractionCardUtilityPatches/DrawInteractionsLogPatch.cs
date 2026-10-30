@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InteractionCardUtilityPatches {
 	[HarmonyPatch(typeof(InteractionCardUtility), nameof(InteractionCardUtility.DrawInteractionsLog))]
-	internal static class DrawInteractionsLogPatch {
+	public static class DrawInteractionsLogPatch {
 		[HarmonyPrefix]
 		private static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn);
 	}

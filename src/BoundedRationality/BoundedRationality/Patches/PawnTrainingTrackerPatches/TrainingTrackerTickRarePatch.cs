@@ -17,7 +17,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.PawnTrainingTrackerPatches {
 	[HarmonyPatch(typeof(Pawn_TrainingTracker), nameof(Pawn_TrainingTracker.TrainingTrackerTickRare))]
-	internal static class TrainingTrackerTickRarePatch {
+	public static class TrainingTrackerTickRarePatch {
 #if V1_0 || V1_1 || V1_2
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Pawn_TrainingTracker), "pawn");
 #else

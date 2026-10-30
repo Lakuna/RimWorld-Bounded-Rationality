@@ -19,7 +19,7 @@ using Verse.AI;
 
 namespace Lakuna.BoundedRationality.Patches.ColonistBarColonistDrawerPatches {
 	[HarmonyPatch(typeof(ColonistBarColonistDrawer), "DrawIcons")]
-	internal static class DrawIconsPatch {
+	public static class DrawIconsPatch {
 		private static readonly MethodInfo CurJobMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CurJob));
 
 		private static readonly MethodInfo IsFormingCaravanMethod = AccessTools.Method(typeof(CaravanFormingUtility), nameof(CaravanFormingUtility.IsFormingCaravan));

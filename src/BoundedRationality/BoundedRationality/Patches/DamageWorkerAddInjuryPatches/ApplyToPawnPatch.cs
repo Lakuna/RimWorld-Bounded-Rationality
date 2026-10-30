@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.DamageWorkerAddInjuryPatches {
 	[HarmonyPatch(typeof(DamageWorker_AddInjury), "ApplyToPawn")]
-	internal static class ApplyToPawnPatch {
+	public static class ApplyToPawnPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(Color), typeof(float) });
 
 		[HarmonyTranspiler]

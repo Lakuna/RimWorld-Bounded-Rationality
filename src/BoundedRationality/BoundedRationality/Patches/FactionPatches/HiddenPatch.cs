@@ -7,7 +7,7 @@ using RimWorld;
 
 namespace Lakuna.BoundedRationality.Patches.FactionPatches {
 	[HarmonyPatch(typeof(Faction), nameof(Faction.Hidden), MethodType.Getter)]
-	internal static class HiddenPatch {
+	public static class HiddenPatch {
 		[HarmonyPostfix]
 #pragma warning disable CA1707
 		private static void Postfix(Faction __instance, ref bool __result) =>

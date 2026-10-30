@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCubeInterestPatches {
 	[HarmonyPatch(typeof(Hediff_CubeInterest), "OnStageIndexChanged")]
-	internal static class OnStageIndexChangedPatch {
+	public static class OnStageIndexChangedPatch {
 		private static readonly FieldInfo PawnField = AccessTools.Field(typeof(Hediff), nameof(Hediff.pawn));
 
 		private static readonly MethodInfo ShouldSendNotificationAboutMethod = AccessTools.Method(typeof(PawnUtility), nameof(PawnUtility.ShouldSendNotificationAbout));

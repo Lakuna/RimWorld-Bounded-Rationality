@@ -19,7 +19,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.VerbMeleeAttackPatches {
 	[HarmonyPatch(typeof(Verb_MeleeAttack), "TryCastShot")]
-	internal static class TryCastShotPatch {
+	public static class TryCastShotPatch {
 		private static readonly MethodInfo CasterPawnMethod = PatchUtility.PropertyGetter(typeof(Verb), nameof(Verb.CasterPawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });

@@ -16,7 +16,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.StudyManagerPatches {
 	[HarmonyPatch(typeof(StudyManager), nameof(StudyManager.StudyAnomaly))]
-	internal static class StudyAnomalyPatch {
+	public static class StudyAnomalyPatch {
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(float) });
 
 		[HarmonyTranspiler]

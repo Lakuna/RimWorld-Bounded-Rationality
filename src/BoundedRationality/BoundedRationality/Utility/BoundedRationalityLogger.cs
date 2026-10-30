@@ -3,63 +3,58 @@ using System;
 using Verse;
 
 namespace Lakuna.BoundedRationality.Utility {
-	/// <summary>
-	/// A static utility class that contains static utility methods for writing information to the log.
-	/// </summary>
-	internal static class BoundedRationalityLogger {
-		/// <summary>
-		/// The prefix that is placed before all logged messages from this mod.
-		/// </summary>
-		private const string Prefix = "Bounded Rationality encountered an exception: ";
+	public static class BoundedRationalityLogger {
+		private const int _keyBase = 793621784;
 
-		/// <summary>
-		/// Write information about an exception to the log.
-		/// </summary>
-		/// <param name="e">The exception.</param>
-		/// <param name="description">A description of the exception.</param>
-		/// <param name="category">The exception's category. If this isn't the default category, only one message of this category can be printed.</param>
-		/// <exception cref="ArgumentNullException">When no exception is given.</exception>
-		internal static void LogException(Exception e, string description = "No description provided.", BoundedRationalityLoggerCategory category = BoundedRationalityLoggerCategory.Unrestricted) {
-			if (e is null) {
-				throw new ArgumentNullException(nameof(e));
+		private const string _prefix = "Bounded Rationality encountered an exception: ";
+
+		public static void LogErrorMessage(string e, BoundedRationalityLoggerCategory category = BoundedRationalityLoggerCategory.Unrestricted) {
+			if (category == BoundedRationalityLoggerCategory.Unrestricted) {
+				Log.Error($"{_prefix}{e}");
+				return;
 			}
 
-			string output = $"{Prefix}{description}\n";
+			Log.ErrorOnce($"{_prefix}{e}", _keyBase + (int)category);
+		}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static void LogException(Exception e, string description = "No description provided.", BoundedRationalityLoggerCategory category = BoundedRationalityLoggerCategory.Unrestricted) {
+#else
+		public static void LogException(Exception? e, string description = "No description provided.", BoundedRationalityLoggerCategory category = BoundedRationalityLoggerCategory.Unrestricted) {
+#endif
+			string output = $"{_prefix}{description}\n";
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			Exception innerException = e;
-			while (innerException != null) {
+#else
+			Exception? innerException = e;
+#endif
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			while (!(innerException is null)) {
+#else
+			while (innerException is not null) {
+#endif
 				output += $"\n> {innerException.Message}";
 				innerException = innerException.InnerException;
 			}
 
-			output += $"\n\nStack trace:\n{e.StackTrace}\n\n";
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			if (!(e is null)) {
+#else
+			if (e is not null) {
+#endif
+				output += $"\n\nStack trace:\n{e.StackTrace}\n\n";
+			}
 
 			if (category == BoundedRationalityLoggerCategory.Unrestricted) {
 				Log.Error(output);
 				return;
 			}
 
-			Log.ErrorOnce(output, (int)category);
+			Log.ErrorOnce(output, _keyBase + (int)category);
 		}
 
-		/// <summary>
-		/// Write information about an error with no corresponding exception to the log.
-		/// </summary>
-		/// <param name="e">The error message.</param>
-		/// <param name="category">The error's category. If this isn't the default category, only one message of this category can be printed.</param>
-		internal static void LogErrorMessage(string e, BoundedRationalityLoggerCategory category = BoundedRationalityLoggerCategory.Unrestricted) {
-			if (category == BoundedRationalityLoggerCategory.Unrestricted) {
-				Log.Error(Prefix + e);
-				return;
-			}
-
-			Log.ErrorOnce(Prefix + e, (int)category);
-		}
-
-		/// <summary>
-		/// Write a non-error, non-exception message to the log.
-		/// </summary>
-		/// <param name="message">The message.</param>
-		internal static void LogMessage(string message) => Log.Message(message);
+		public static void LogMessage(string message) =>
+			Log.Message(message);
 	}
 }

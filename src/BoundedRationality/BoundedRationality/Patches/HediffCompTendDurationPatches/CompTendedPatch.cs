@@ -20,7 +20,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.HediffCompTendDurationPatches {
 	[HarmonyPatch(typeof(HediffComp_TendDuration), nameof(HediffComp_TendDuration.CompTended))]
-	internal static class CompTendedPatch {
+	public static class CompTendedPatch {
 		private static readonly MethodInfo PawnMethod = PatchUtility.PropertyGetter(typeof(HediffComp), nameof(HediffComp.Pawn));
 
 		private static readonly MethodInfo ThrowTextMethod = AccessTools.Method(typeof(MoteMaker), nameof(MoteMaker.ThrowText), new Type[] { typeof(Vector3), typeof(Map), typeof(string), typeof(Color), typeof(float) });

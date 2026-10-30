@@ -12,7 +12,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.InteractionWorkerMarriageProposalPatches {
 	[HarmonyPatch(typeof(InteractionWorker_MarriageProposal), nameof(InteractionWorker_MarriageProposal.Interacted))]
-	internal static class InteractedPatch {
+	public static class InteractedPatch {
 		[HarmonyPostfix]
 		private static void Postfix(
 			Pawn initiator,

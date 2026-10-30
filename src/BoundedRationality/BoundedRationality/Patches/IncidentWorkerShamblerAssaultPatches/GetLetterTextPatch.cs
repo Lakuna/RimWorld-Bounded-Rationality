@@ -14,7 +14,7 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches.IncidentWorkerShamblerAssaultPatches {
 	[HarmonyPatch(typeof(IncidentWorker_ShamblerAssault), "GetLetterText")]
-	internal static class GetLetterTextPatch {
+	public static class GetLetterTextPatch {
 		private static readonly FieldInfo FactionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.faction));
 
 		private static readonly FieldInfo ArrivalTextEnemyField = AccessTools.Field(typeof(RaidStrategyDef), nameof(RaidStrategyDef.arrivalTextEnemy));

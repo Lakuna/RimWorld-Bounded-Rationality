@@ -8,13 +8,16 @@ using Verse;
 
 namespace Lakuna.BoundedRationality.Patches {
 	[StaticConstructorOnStartup]
-	internal static class HarmonyPatcher {
+	public static class HarmonyPatcher {
 #if V1_0
-		internal static readonly HarmonyInstance Instance = HarmonyInstance.Create(nameof(BoundedRationality));
+		public static readonly HarmonyInstance Instance = HarmonyInstance.Create(nameof(BoundedRationality));
+#elif V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static readonly Harmony Instance = new Harmony(nameof(BoundedRationality));
 #else
-		internal static readonly Harmony Instance = new Harmony(nameof(BoundedRationality));
+		public static readonly Harmony Instance = new(nameof(BoundedRationality));
 #endif
 
-		static HarmonyPatcher() => Instance.PatchAll();
+		static HarmonyPatcher() =>
+			Instance.PatchAll();
 	}
 }
