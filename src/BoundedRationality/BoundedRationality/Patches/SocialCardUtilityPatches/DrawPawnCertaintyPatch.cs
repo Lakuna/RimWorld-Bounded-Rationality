@@ -31,7 +31,7 @@ namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 
 #pragma warning disable CA1002 // Use the same type as the value being patched.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static List<Trait>? FilterTraits(List<Trait> traits, Pawn pawn) {
+		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
 #else
 		private static List<Trait>? FilterTraits(List<Trait>? traits, Pawn? pawn) {
 #endif
@@ -57,7 +57,11 @@ namespace Lakuna.BoundedRationality.Patches.SocialCardUtilityPatches {
 		}
 
 		[HarmonyPrefix]
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static bool Prefix(Pawn pawn) =>
+#else
 		public static bool Prefix(Pawn? pawn) =>
+#endif
 			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Ideoligion, pawn);
 
 		[HarmonyTranspiler]

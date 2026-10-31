@@ -58,8 +58,8 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether or not the pawn is dead or downed.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		public static bool DeadOrDowned(Pawn pawn) =>
-			pawn != null && (pawn.Dead || pawn.Downed);
-#elif V1_5
+			!(pawn is null) && (pawn.Dead || pawn.Downed);
+#elif V1_5 || V1_6
 		public static bool DeadOrDowned(Pawn pawn) =>
 			pawn?.DeadOrDowned ?? false;
 #else
@@ -132,11 +132,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether the given pawn is hostile to the player's faction.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool HostileToPlayer(Pawn pawn) =>
-			pawn != null
-			&& Faction.OfPlayerSilentFail != null
+			!(pawn is null)
+			&& !(Faction.OfPlayerSilentFail is null)
 			&& ((pawn.Faction is null) ? pawn.HostileTo(Faction.OfPlayerSilentFail)
 				: (pawn.Faction != Faction.OfPlayerSilentFail
-					&& pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+					&& !(pawn.Faction.RelationWith(Faction.OfPlayerSilentFail, true) is null)
 					&& (pawn.HostileTo(Faction.OfPlayerSilentFail)
 						|| DeadOrDowned(pawn)
 						&& HostileToPlayer(pawn.Faction))));
@@ -159,10 +159,10 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether the given faction is hostile to the player's faction.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool HostileToPlayer(Faction faction) =>
-			faction != null
-			&& Faction.OfPlayerSilentFail != null
+			!(faction is null)
+			&& !(Faction.OfPlayerSilentFail is null)
 			&& faction != Faction.OfPlayerSilentFail
-			&& faction.RelationWith(Faction.OfPlayerSilentFail, true) != null
+			&& !(faction.RelationWith(Faction.OfPlayerSilentFail, true) is null)
 			&& faction.HostileTo(Faction.OfPlayerSilentFail);
 #else
 		public static bool HostileToPlayer(Faction? faction) =>
@@ -213,7 +213,7 @@ namespace Lakuna.BoundedRationality.Utility {
 #if V1_0 || V1_1 || V1_2 || V1_3
 			false;
 #elif V1_4 || V1_5 || V1_6
-			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() != null;
+			!(Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() is null);
 #else
 
 			Find.WindowStack?.WindowOfType<Dialog_GrowthMomentChoices>() is not null;
@@ -227,7 +227,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="label">The name of the array in the save data.</param>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
 		public static void LookBoolArray(ref bool[] arr, int elements, string label) {
-			if (Scribe.mode == LoadSaveMode.Saving && arr != null) {
+			if (Scribe.mode == LoadSaveMode.Saving && !(arr is null)) {
 				if (arr.Length != elements) {
 					Log.ErrorOnce($"Bool array length mismatch for {label}", 74135877);
 				}
@@ -239,7 +239,7 @@ namespace Lakuna.BoundedRationality.Utility {
 
 			// Equivalent to `byte[] arr2 = DataExposeUtility.BytesToBits(arr, elements, numBytes);`.
 			byte[] arr2 = null;
-			if (Scribe.mode == LoadSaveMode.Saving && arr != null) {
+			if (Scribe.mode == LoadSaveMode.Saving && !(arr is null)) {
 				arr2 = new byte[numBytes];
 				int num = 0;
 				byte b = 1;
@@ -257,7 +257,7 @@ namespace Lakuna.BoundedRationality.Utility {
 			}
 
 			// Equivalent to `DataExposeUtility.LookByteArray(ref arr2, label);`.
-			if (Scribe.mode == LoadSaveMode.Saving && arr2 != null) {
+			if (Scribe.mode == LoadSaveMode.Saving && !(arr2 is null)) {
 				byte[] array = CompressUtility.Compress(arr2);
 				if (array.Length < arr2.Length) {
 					string value = AddLineBreaksToLongString(Convert.ToBase64String(array));
@@ -309,6 +309,9 @@ namespace Lakuna.BoundedRationality.Utility {
 				}
 			}
 		}
+#elif V1_5 || V1_6
+		public static void LookBoolArray(ref bool[] arr, int elements, string label) =>
+			DataExposeUtility.LookBoolArray(ref arr, elements, label);
 #else
 		public static void LookBoolArray(ref bool[]? arr, int elements, string label) =>
 			DataExposeUtility.LookBoolArray(ref arr, elements, label);
@@ -326,7 +329,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		public static bool PawnIsPlayerControlled(Pawn pawn) =>
 			(pawn?.IsColonistPlayerControlled ?? false)
 			|| (pawn?.IsColonyMechPlayerControlled ?? false);
-#elif V1_5
+#elif V1_5 || V1_6
 		public static bool PawnIsPlayerControlled(Pawn pawn) =>
 			pawn?.IsPlayerControlled ?? false;
 #else
@@ -382,7 +385,7 @@ namespace Lakuna.BoundedRationality.Utility {
 			(pawn is null) ? PawnType.Neutral
 			: ((IsFreeNonSlaveColonist(pawn)
 					|| IsAnimal(pawn)
-					&& Faction.OfPlayerSilentFail != null
+					&& !(Faction.OfPlayerSilentFail is null)
 					&& pawn.Faction == Faction.OfPlayerSilentFail)
 				&& pawn.Faction == Faction.OfPlayerSilentFail
 				|| (BoundedRationalityMod.Settings?.RememberFormerColonists ?? false)
@@ -397,7 +400,7 @@ namespace Lakuna.BoundedRationality.Utility {
 			(pawn is null) ? PawnType.Neutral
 			: ((IsFreeNonSlaveColonist(pawn)
 					|| IsAnimal(pawn)
-					&& Faction.OfPlayerSilentFail != null
+					&& !(Faction.OfPlayerSilentFail is null)
 					&& pawn.Faction == Faction.OfPlayerSilentFail)
 				&& pawn.HomeFaction == Faction.OfPlayerSilentFail
 				|| (BoundedRationalityMod.Settings?.RememberFormerColonists ?? false)
@@ -448,7 +451,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether the pawn is player-controlled.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsPlayerControlled(Pawn pawn) =>
-			pawn != null
+			!(pawn is null)
 			&& IsPlayerControlled(TypeOf(pawn), !pawn.Dead);
 #else
 		public static bool IsPlayerControlled(Pawn? pawn) =>
@@ -463,7 +466,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether the faction is player-controlled.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsPlayerControlled(Faction faction) =>
-			faction != null
+			!(faction is null)
 			&& IsPlayerControlled(TypeOf(faction));
 #else
 		public static bool IsPlayerControlled(Faction? faction) =>
@@ -490,7 +493,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether or not the given pawn is a starting colonist.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsStartingColonist(Pawn pawn) =>
-			pawn != null
+			!(pawn is null)
 			&& (Find.GameInitData?.startingAndOptionalPawns?.Contains(pawn) ?? false);
 #else
 		public static bool IsStartingColonist(Pawn? pawn) =>
@@ -517,7 +520,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether or not the given pawn's corpse was dead when the player discovered it.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsAncientCorpse(Pawn pawn) =>
-			pawn != null
+			!(pawn is null)
 			&& pawn.Dead
 			&& IsAncientCorpse(pawn.Corpse);
 #else
@@ -534,7 +537,7 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <returns>Whether or not the given corpse was dead when the player discovered it.</returns>
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 		public static bool IsAncientCorpse(Corpse corpse) =>
-			corpse != null
+			!(corpse is null)
 			&& corpse.timeOfDeath <= 0;
 #else
 		public static bool IsAncientCorpse(Corpse? corpse) =>

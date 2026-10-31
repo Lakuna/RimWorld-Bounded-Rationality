@@ -56,7 +56,11 @@ namespace Lakuna.BoundedRationality.Patches.TraitPatches {
 				return;
 			}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			__result = "BR.Unknown".Translate().CapitalizeFirst().EndWithPeriod().StringSafe();
+#else
 			__result = "BR.Unknown".Translate().CapitalizeFirst().EndWithPeriod().StringSafe;
+#endif
 		}
 #endif
 

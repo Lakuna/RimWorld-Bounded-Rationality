@@ -53,7 +53,11 @@ namespace Lakuna.BoundedRationality {
 			set => this._hideFactionInformation = value;
 		}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public BoolGrid KnownInformation {
+#else
 		public BoolGrid? KnownInformation {
+#endif
 			get => this._knownInformation;
 			set => this._knownInformation = value;
 		}
@@ -127,9 +131,19 @@ namespace Lakuna.BoundedRationality {
 
 		private bool _hideFactionInformation;
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5
+		private BoolGrid _knownInformation = new BoolGrid(new Map() { info = { Size = new IntVec3(_infoWidth, 0, _infoHeight) } });
+#elif V1_6
+		private BoolGrid _knownInformation = new BoolGrid(_infoWidth, _infoHeight);
+#else
 		private BoolGrid? _knownInformation = new(_infoWidth, _infoHeight);
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private bool[] _learningEnabled = new bool[_infoWidth];
+#else
 		private bool[]? _learningEnabled = new bool[_infoWidth];
+#endif
 
 		private bool _legacyMode;
 
@@ -196,7 +210,7 @@ namespace Lakuna.BoundedRationality {
 		public bool GetLearningEnabledFor(PawnType type) {
 			if (this._learningEnabled is null) {
 				BoundedRationalityLogger.LogErrorMessage("Attempted to get learning enabled from null.");
-				this._learningEnabled = [];
+				this._learningEnabled = new bool[_infoWidth];
 				this.InitializeLearningEnabled();
 			}
 
@@ -206,7 +220,7 @@ namespace Lakuna.BoundedRationality {
 		public bool SetLearningEnabledFor(PawnType type, bool value) {
 			if (this._learningEnabled is null) {
 				BoundedRationalityLogger.LogErrorMessage("Attempted to set learning enabled in null.");
-				this._learningEnabled = [];
+				this._learningEnabled = new bool[_infoWidth];
 				this.InitializeLearningEnabled();
 			}
 
@@ -285,6 +299,7 @@ namespace Lakuna.BoundedRationality {
 			Map map = new Map();
 			map.info.Size = new IntVec3(_infoWidth, 0, _infoHeight);
 			bool output = this.KnownInformation.MapSizeMatches(map);
+			return output;
 #elif V1_5
 			Map map = new Map();
 			map.info.Size = new IntVec3(_infoWidth, 0, _infoHeight);
@@ -302,7 +317,11 @@ namespace Lakuna.BoundedRationality {
 		}
 
 		private bool LearningEnabledIsValid() =>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			!(this._learningEnabled is null)
+#else
 			this._learningEnabled is not null
+#endif
 			&& this._learningEnabled.Length == _infoWidth;
 	}
 }

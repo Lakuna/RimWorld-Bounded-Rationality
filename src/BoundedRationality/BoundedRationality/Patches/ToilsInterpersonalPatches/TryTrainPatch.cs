@@ -63,8 +63,13 @@ namespace Lakuna.BoundedRationality.Patches.ToilsInterpersonalPatches {
 #endif
 
 			// If the toil or trainee index field isn't present, return unmodified instructions.
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			FieldInfo toilField = original.DeclaringType?.GetField("toil");
+			FieldInfo traineeIndField = original.DeclaringType?.GetField("traineeInd");
+#else
 			FieldInfo? toilField = original.DeclaringType?.GetField("toil");
 			FieldInfo? traineeIndField = original.DeclaringType?.GetField("traineeInd");
+#endif
 			if (toilField is null || traineeIndField is null) {
 				foreach (CodeInstruction instruction in instructions) {
 					yield return instruction;

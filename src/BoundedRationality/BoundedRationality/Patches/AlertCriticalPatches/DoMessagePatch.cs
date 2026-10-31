@@ -22,7 +22,11 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 				return;
 			}
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			List<Pawn> pawns = __instance?.GetReport().culpritsPawns;
+#else
 			List<Pawn>? pawns = __instance?.GetReport().culpritsPawns;
+#endif
 			if (pawns is null || pawns.NullOrEmpty()) {
 				return;
 			}

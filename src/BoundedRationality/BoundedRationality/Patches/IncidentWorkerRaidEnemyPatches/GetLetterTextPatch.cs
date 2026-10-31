@@ -22,7 +22,11 @@ namespace Lakuna.BoundedRationality.Patches.IncidentWorkerRaidEnemyPatches {
 
 		private static readonly FieldInfo _factionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.faction));
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static readonly MethodInfo _findMethod = AccessTools.Method(typeof(List<Pawn>), nameof(List<Pawn>.Find));
+#else
 		private static readonly MethodInfo _findMethod = AccessTools.Method(typeof(List<Pawn>), nameof(List<>.Find));
+#endif
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 		private static readonly FieldInfo _raidAgeRestrictionField = AccessTools.Field(typeof(IncidentParms), nameof(IncidentParms.raidAgeRestriction));

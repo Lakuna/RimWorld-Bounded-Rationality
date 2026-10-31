@@ -20,6 +20,8 @@ namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 
 #if V1_3
 		private static readonly Backstory _defaultBackstory = BackstoryDatabase.allBackstories.Values.ToList().Find((def) => !def.DisabledWorkTypes.Any());
+#elif V1_4 || V1_5 || V1_6
+		private static readonly BackstoryDef _defaultBackstory = DefDatabase<BackstoryDef>.AllDefsListForReading?.Find((def) => !def.DisabledWorkTypes.Any());
 #else
 		private static readonly BackstoryDef? _defaultBackstory = DefDatabase<BackstoryDef>.AllDefsListForReading?.Find((def) => !def.DisabledWorkTypes.Any());
 #endif
@@ -50,7 +52,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnPatches {
 
 #pragma warning disable CA1002 // Use the same type as the value being patched.
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-		private static List<Trait>? FilterTraits(List<Trait> traits, Pawn pawn) {
+		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
 #else
 		private static List<Trait>? FilterTraits(List<Trait>? traits, Pawn? pawn) {
 #endif

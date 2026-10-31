@@ -175,7 +175,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="value">The value on top of the stack.</param>
 		/// <returns></returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> GetLocalAddress(ILGenerator generator, object value) {
+#else
 		public static IEnumerable<CodeInstruction> GetLocalAddress(ILGenerator generator, object? value) {
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (generator is null) {
 				throw new ArgumentNullException(nameof(generator));
@@ -219,7 +223,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="value">The value.</param>
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <returns>The instruction that will load the given value onto the stack.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static CodeInstruction LoadValue(object value, bool byAddress = false) =>
+#else
 		public static CodeInstruction LoadValue(object? value, bool byAddress = false) =>
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			value is bool boolValue ? LoadValue(boolValue ? 1 : 0, byAddress)
 			: value is byte byteValue ? LoadValue(unchecked((int)byteValue), byAddress)
@@ -246,7 +254,7 @@ namespace Lakuna.BoundedRationality.Utility {
 			: value is short ushortValue ? LoadValue(unchecked((int)ushortValue), byAddress)
 			: value is null ? new CodeInstruction(OpCodes.Ldnull)
 			: value is string stringValue ?
-				stringValue.NullOrEmpty() ? new CodeInstruction(OpCodes.Ldsfld, _emptyStringField)
+				stringValue.NullOrEmpty() ? new CodeInstruction(OpCodes.Ldsfld, EmptyStringField)
 				: new CodeInstruction(OpCodes.Ldstr, stringValue)
 			: value is ConstructorInfo constructorInfo ?
 				constructorInfo.GetParameters().Length == 0 ? new CodeInstruction(OpCodes.Newobj, constructorInfo)
@@ -316,7 +324,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="generator">The code generator.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <returns>The instructions that will load the given value onto the stack.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> LoadValue(object value, ILGenerator generator, bool byAddress = false, bool localAddress = false) {
+#else
 		public static IEnumerable<CodeInstruction> LoadValue(object? value, ILGenerator generator, bool byAddress = false, bool localAddress = false) {
+#endif
 			yield return LoadValue(value, byAddress);
 			if (!localAddress) {
 				yield break;
@@ -429,7 +441,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false) {
+#else
 		public static IEnumerable<CodeInstruction> ReplaceBackstoryIfNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false) {
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (getPawnInstructions is null) {
 				throw new ArgumentNullException(nameof(getPawnInstructions));
@@ -502,7 +518,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="byAddress">Whether or not to load the value by address. Only applicable to fields.</param>
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> ReplaceIfAnySkillsForWorkTypeNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, IEnumerable<CodeInstruction> getWorkTypeInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false) {
+#else
 		public static IEnumerable<CodeInstruction> ReplaceIfAnySkillsForWorkTypeNotKnown(IEnumerable<CodeInstruction> getPawnInstructions, IEnumerable<CodeInstruction> getWorkTypeInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false) {
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (getPawnInstructions is null) {
 				throw new ArgumentNullException(nameof(getPawnInstructions));
@@ -583,7 +603,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#else
 		public static IEnumerable<CodeInstruction> ReplaceIfFactionNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#endif
 			ReplaceIfNotKnown(IsInformationKnownForFactionMethod, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
@@ -598,7 +622,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+#else
 		public static IEnumerable<CodeInstruction> ReplaceIfNotKnown(MethodInfo isInformationKnownForMethod, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (getInstructions is null) {
 				throw new ArgumentNullException(nameof(getInstructions));
@@ -669,7 +697,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#else
 		public static IEnumerable<CodeInstruction> ReplaceIfPawnNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#endif
 			ReplaceIfNotKnown(IsInformationKnownForPawnMethod, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
@@ -683,7 +715,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="localAddress">Whether or not to store the value locally and load its address. This probably shouldn't be used with `byAddress`.</param>
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the conditional replacement.</returns>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> ReplaceIfThingNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getThingInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#else
 		public static IEnumerable<CodeInstruction> ReplaceIfThingNotKnown(InformationCategory category, IEnumerable<CodeInstruction> getThingInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#endif
 			ReplaceIfNotKnown(IsInformationKnownForThingMethod, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
@@ -699,7 +735,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> SkipIfFactionNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#else
 		public static IEnumerable<CodeInstruction> SkipIfFactionNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getFactionInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#endif
 			SkipIfNotKnown(IsInformationKnownForFactionMethod, callInstruction, category, getFactionInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
@@ -716,7 +756,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> SkipIfNotKnown(MethodInfo isInformationKnownForMethod, CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+#else
 		public static IEnumerable<CodeInstruction> SkipIfNotKnown(MethodInfo isInformationKnownForMethod, CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) {
+#endif
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (callInstruction is null) {
 				throw new ArgumentNullException(nameof(callInstruction));
@@ -829,7 +873,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> SkipIfPawnNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#else
 		public static IEnumerable<CodeInstruction> SkipIfPawnNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getPawnInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#endif
 			SkipIfNotKnown(IsInformationKnownForPawnMethod, callInstruction, category, getPawnInstructions, generator, value, byAddress, localAddress, controlCategory);
 
 		/// <summary>
@@ -845,7 +893,11 @@ namespace Lakuna.BoundedRationality.Utility {
 		/// <param name="controlCategory">The type of control or notification that contains the obscured information.</param>
 		/// <returns>The instructions that will perform the check.</returns>
 		/// <exception cref="ArgumentException"></exception>
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		public static IEnumerable<CodeInstruction> SkipIfThingNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getThingInstructions, ILGenerator generator, object value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#else
 		public static IEnumerable<CodeInstruction> SkipIfThingNotKnown(CodeInstruction callInstruction, InformationCategory category, IEnumerable<CodeInstruction> getThingInstructions, ILGenerator generator, object? value = null, bool byAddress = false, bool localAddress = false, ControlCategory controlCategory = ControlCategory.Default) =>
+#endif
 			SkipIfNotKnown(IsInformationKnownForThingMethod, callInstruction, category, getThingInstructions, generator, value, byAddress, localAddress, controlCategory);
 	}
 }

@@ -19,7 +19,7 @@ namespace Lakuna.BoundedRationality.Patches.PawnRelationUtilityPatches {
 		[HarmonyPrefix]
 		public static bool Prefix(IEnumerable<Pawn> seenPawns) {
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
-			if (instructions is null) {
+			if (seenPawns is null) {
 				throw new ArgumentNullException(nameof(seenPawns));
 			}
 #else
