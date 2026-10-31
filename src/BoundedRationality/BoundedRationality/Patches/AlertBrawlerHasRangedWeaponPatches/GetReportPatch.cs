@@ -18,8 +18,10 @@ namespace Lakuna.BoundedRationality.Patches.AlertBrawlerHasRangedWeaponPatches {
 	[HarmonyPatch(typeof(Alert_BrawlerHasRangedWeapon), nameof(Alert_BrawlerHasRangedWeapon.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(ref AlertReport __result) {
-			if (BoundedRationalityMod.Settings.NeverHideAlerts) {
+#pragma warning restore IDE1006
+			if (BoundedRationalityMod.Settings?.NeverHideAlerts ?? false) {
 				return;
 			}
 

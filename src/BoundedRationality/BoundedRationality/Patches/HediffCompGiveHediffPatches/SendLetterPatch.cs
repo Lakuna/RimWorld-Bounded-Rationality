@@ -9,7 +9,10 @@ namespace Lakuna.BoundedRationality.Patches.HediffCompGiveHediffPatches {
 	[HarmonyPatch(typeof(HediffComp_GiveHediff), "SendLetter")]
 	public static class SendLetterPatch {
 		[HarmonyPrefix]
-		public static bool Prefix(HediffComp_CauseMentalState __instance) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance.Pawn, ControlCategory.Letter);
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
+		public static bool Prefix(HediffComp_CauseMentalState __instance) =>
+#pragma warning restore IDE1006
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, __instance?.Pawn, ControlCategory.Letter);
 	}
 }
 #endif

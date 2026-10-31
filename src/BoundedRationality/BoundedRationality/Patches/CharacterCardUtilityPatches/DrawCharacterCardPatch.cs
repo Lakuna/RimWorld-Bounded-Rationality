@@ -18,52 +18,69 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 	[HarmonyPatch(typeof(CharacterCardUtility), nameof(CharacterCardUtility.DrawCharacterCard))]
 	public static class DrawCharacterCardPatch {
-#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-		private static readonly MethodInfo ToStringFullMethod = PatchUtility.PropertyGetter(typeof(Name), nameof(Name.ToStringFull));
-
-		private static readonly MethodInfo SpawnedMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Spawned));
-
-		private static readonly MethodInfo IsColonistMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.IsColonist));
-
-		private static readonly MethodInfo GetBackstoryMethod = AccessTools.Method(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.GetBackstory));
-
-#if V1_0
-		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.CombinedDisabledWorkTags));
-#else
-		private static readonly MethodInfo CombinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
-#endif
-
-		private static readonly FieldInfo TitleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
-
-		private static readonly FieldInfo AllTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
-
-		private static readonly MethodInfo FilterTraitsMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(FilterTraits));
-
-		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
-			List<Trait> outValue = new List<Trait>();
-			foreach (Trait trait in traits) {
-				if (!KnowledgeUtility.IsTraitKnown(pawn, trait.def)) {
-					continue;
-				}
-
-				outValue.Add(trait);
-			}
-
-			return outValue;
-		}
+#if V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly FieldInfo _abilitiesField = AccessTools.Field(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.abilities));
 #endif
 
 #if V1_1 || V1_2 || V1_3 || V1_4
-		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+		private static readonly ConstructorInfo _abilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
+#endif
 
-		private static readonly MethodInfo GetExtraFactionsFromQuestPartsMethod = AccessTools.Method(typeof(QuestUtility), nameof(QuestUtility.GetExtraFactionsFromQuestParts));
+#if V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _actionDelegateTranspilerMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(ActionDelegateTranspiler));
+#endif
 
-		private static readonly FieldInfo AbilitiesField = AccessTools.Field(typeof(Pawn_AbilityTracker), nameof(Pawn_AbilityTracker.abilities));
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly FieldInfo _allTraitsField = AccessTools.Field(typeof(TraitSet), nameof(TraitSet.allTraits));
+#endif
 
-		private static readonly ConstructorInfo AbilityListConstructor = AccessTools.Constructor(typeof(List<Ability>));
+#if V1_0
+		private static readonly MethodInfo _combinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.CombinedDisabledWorkTags));
+#elif V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _combinedDisabledWorkTagsMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.CombinedDisabledWorkTags));
+#endif
 
-		private static readonly MethodInfo ActionDelegateTranspilerMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(ActionDelegateTranspiler));
+#if V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _factionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _filterTraitsMethod = AccessTools.Method(typeof(DrawCharacterCardPatch), nameof(FilterTraits));
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _getBackstoryMethod = AccessTools.Method(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.GetBackstory));
+#endif
+
+#if V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _getExtraFactionsFromQuestPartsMethod = AccessTools.Method(typeof(QuestUtility), nameof(QuestUtility.GetExtraFactionsFromQuestParts));
+#endif
+
+#if !(V1_0 || V1_1)
+		private static readonly FieldInfo _guiltField = AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt));
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _isColonistMethod = PatchUtility.PropertyGetter(typeof(Pawn), nameof(Pawn.IsColonist));
+#endif
+
+#if !V1_0
+		private static readonly FieldInfo _royaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _spawnedMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Spawned));
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly FieldInfo _titleField = AccessTools.Field(typeof(Pawn_StoryTracker), nameof(Pawn_StoryTracker.title));
+#endif
+
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+		private static readonly MethodInfo _toStringFullMethod = PatchUtility.PropertyGetter(typeof(Name), nameof(Name.ToStringFull));
+#endif
+
+#if V1_1 || V1_2 || V1_3 || V1_4
 		private static IEnumerable<CodeInstruction> ActionDelegateTranspiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator, MethodBase original) {
 			// If the pawn field isn't present, return unmodified instructions.
 			FieldInfo pawnField = original.DeclaringType.GetField("pawn");
@@ -80,7 +97,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
+				if (PatchUtility.Calls(instruction, _getBackstoryMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -88,7 +105,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, TitleField)) {
+				if (PatchUtility.LoadsField(instruction, _titleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -99,12 +116,25 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 		}
 #endif
 
-#if !V1_0
-		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
-#endif
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
+#pragma warning disable CA1002 // Use the same type as the value being patched.
+		private static List<Trait> FilterTraits(List<Trait> traits, Pawn pawn) {
+#pragma warning restore CA1002
+			if (traits is null) {
+				return null;
+			}
 
-#if !(V1_0 || V1_1)
-		private static readonly FieldInfo GuiltField = AccessTools.Field(typeof(Pawn), nameof(Pawn.guilt));
+			List<Trait> outValue = new List<Trait>();
+			foreach (Trait trait in traits) {
+				if (!KnowledgeUtility.IsTraitKnown(pawn, trait.def)) {
+					continue;
+				}
+
+				outValue.Add(trait);
+			}
+
+			return outValue;
+		}
 #endif
 
 		[HarmonyPrefix]
@@ -138,15 +168,23 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(instructions);
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_1) };
+#else
+			CodeInstruction[] getPawnInstructions = [new(OpCodes.Ldarg_1)];
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 #if V1_1 || V1_2 || V1_3 || V1_4
-				if (PatchUtility.Calls(instruction, GetExtraFactionsFromQuestPartsMethod)) {
+				if (PatchUtility.Calls(instruction, _getExtraFactionsFromQuestPartsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.SkipIfPawnNotKnown(instruction, InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -159,7 +197,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 				yield return instruction;
 
 #if V1_0 || V1_1 || V1_2 || V1_3 || V1_4
-				if (PatchUtility.Calls(instruction, ToStringFullMethod)) {
+				if (PatchUtility.Calls(instruction, _toStringFullMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, string.Empty)) {
 						yield return i;
 					}
@@ -167,7 +205,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, SpawnedMethod) || PatchUtility.Calls(instruction, IsColonistMethod)) {
+				if (PatchUtility.Calls(instruction, _spawnedMethod) || PatchUtility.Calls(instruction, _isColonistMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions, ControlCategory.Control)) { // `Spawned` is used only for the "banish" button. `IsColonist` is used only for the "rename colonist" button.
 						yield return i;
 					}
@@ -175,7 +213,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, GetBackstoryMethod)) {
+				if (PatchUtility.Calls(instruction, _getBackstoryMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceBackstoryIfNotKnown(getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -183,7 +221,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, CombinedDisabledWorkTagsMethod)) {
+				if (PatchUtility.Calls(instruction, _combinedDisabledWorkTagsMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Skills, getPawnInstructions, generator, (int)WorkTags.None)) {
 						yield return i;
 					}
@@ -191,7 +229,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, TitleField)) {
+				if (PatchUtility.LoadsField(instruction, _titleField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -199,18 +237,18 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, AllTraitsField)) {
+				if (PatchUtility.LoadsField(instruction, _allTraitsField)) {
 					foreach (CodeInstruction i in getPawnInstructions) {
 						yield return new CodeInstruction(i);
 					}
 
-					yield return new CodeInstruction(OpCodes.Call, FilterTraitsMethod);
+					yield return new CodeInstruction(OpCodes.Call, _filterTraitsMethod);
 					continue;
 				}
 #endif
 
 #if V1_1 || V1_2 || V1_3 || V1_4
-				if (PatchUtility.Calls(instruction, FactionMethod)) {
+				if (PatchUtility.Calls(instruction, _factionMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -218,8 +256,8 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, AbilitiesField)) {
-					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, AbilityListConstructor)) {
+				if (PatchUtility.LoadsField(instruction, _abilitiesField)) {
+					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Abilities, getPawnInstructions, generator, _abilityListConstructor)) {
 						yield return i;
 					}
 
@@ -233,7 +271,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 							continue;
 						}
 
-						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: new HarmonyMethod(ActionDelegateTranspilerMethod));
+						_ = HarmonyPatcher.Instance.Patch(methodInfo, transpiler: new HarmonyMethod(_actionDelegateTranspilerMethod));
 					}
 
 					continue;
@@ -241,7 +279,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 #endif
 
 #if !V1_0
-				if (PatchUtility.LoadsField(instruction, RoyaltyField)) {
+				if (PatchUtility.LoadsField(instruction, _royaltyField)) {
 					// Royalty is used only for the "renounce title" button.
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Personal, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;
@@ -253,7 +291,7 @@ namespace Lakuna.BoundedRationality.Patches.CharacterCardUtilityPatches {
 
 #if !(V1_0 || V1_1)
 
-				if (PatchUtility.LoadsField(instruction, GuiltField)) {
+				if (PatchUtility.LoadsField(instruction, _guiltField)) {
 					// Guilt is used only for the "execute colonist" button.
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Basic, getPawnInstructions, generator, controlCategory: ControlCategory.Control)) {
 						yield return i;

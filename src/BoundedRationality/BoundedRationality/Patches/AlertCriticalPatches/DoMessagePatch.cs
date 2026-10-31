@@ -14,14 +14,16 @@ namespace Lakuna.BoundedRationality.Patches.AlertCriticalPatches {
 	[HarmonyPatch(typeof(Alert_Critical), "DoMessage", MethodType.Getter)]
 	public static class DoMessagePatch {
 		[HarmonyPostfix]
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(Alert_Critical __instance, ref bool __result) {
+#pragma warning restore IDE1006
 			// Never enable an already disabled message.
 			if (!__result) {
 				return;
 			}
 
-			List<Pawn> pawns = __instance.GetReport().culpritsPawns;
-			if (pawns.NullOrEmpty()) {
+			List<Pawn>? pawns = __instance?.GetReport().culpritsPawns;
+			if (pawns is null || pawns.NullOrEmpty()) {
 				return;
 			}
 

@@ -15,50 +15,62 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Visitor), "DoPrisonerTab")]
 	public static class DoPrisonerTabPatch {
-		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
+		private static readonly MethodInfo _factionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
-		private static readonly MethodInfo InitiatePrisonBreakMtbDaysMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.InitiatePrisonBreakMtbDays));
+		private static readonly FieldInfo _finalResistanceInteractionDataField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.finalResistanceInteractionData));
 
-		private static readonly MethodInfo IsPrisonBreakingMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.IsPrisonBreaking));
+		private static readonly MethodInfo _genePreventsPrisonBreakingMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.GenePreventsPrisonBreaking));
 
-		private static readonly MethodInfo GenePreventsPrisonBreakingMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.GenePreventsPrisonBreaking));
+		private static readonly FieldInfo _ideoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
 
-		private static readonly MethodInfo RecruitableMethod = PatchUtility.PropertyGetter(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.Recruitable));
+		private static readonly MethodInfo _initiatePrisonBreakMtbDaysMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.InitiatePrisonBreakMtbDays));
 
-		private static readonly FieldInfo ResistanceField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.resistance));
+		private static readonly MethodInfo _isGuiltyMethod = PatchUtility.PropertyGetter(typeof(Pawn_GuiltTracker), nameof(Pawn_GuiltTracker.IsGuilty));
 
-		private static readonly FieldInfo MinField = AccessTools.Field(typeof(FloatRange), nameof(FloatRange.min));
+		private static readonly MethodInfo _isPrisonBreakingMethod = AccessTools.Method(typeof(PrisonBreakUtility), nameof(PrisonBreakUtility.IsPrisonBreaking));
 
-		private static readonly FieldInfo MaxField = AccessTools.Field(typeof(FloatRange), nameof(FloatRange.max));
+		private static readonly FieldInfo _maxField = AccessTools.Field(typeof(FloatRange), nameof(FloatRange.max));
 
-		private static readonly FieldInfo RoyaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
+		private static readonly FieldInfo _minField = AccessTools.Field(typeof(FloatRange), nameof(FloatRange.min));
 
-		private static readonly FieldInfo WillField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
+		private static readonly MethodInfo _recruitableMethod = PatchUtility.PropertyGetter(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.Recruitable));
 
-		private static readonly MethodInfo ToStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString), new Type[] { typeof(string) });
+		private static readonly FieldInfo _resistanceField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.resistance));
 
-		private static readonly MethodInfo TranslateSimpleMethod = AccessTools.Method(typeof(Translator), nameof(Translator.TranslateSimple));
+		private static readonly FieldInfo _royaltyField = AccessTools.Field(typeof(Pawn), nameof(Pawn.royalty));
 
-		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+		private static readonly MethodInfo _selPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
-		private static readonly FieldInfo IdeoForConversionField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.ideoForConversion));
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+		private static readonly MethodInfo _toStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString), new Type[] { typeof(string) });
+#else
+		private static readonly MethodInfo _toStringMethod = AccessTools.Method(typeof(float), nameof(float.ToString), [typeof(string)]);
+#endif
 
-		private static readonly FieldInfo FinalResistanceInteractionDataField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.finalResistanceInteractionData));
+		private static readonly MethodInfo _translateSimpleMethod = AccessTools.Method(typeof(Translator), nameof(Translator.TranslateSimple));
 
-		private static readonly MethodInfo IsGuiltyMethod = PatchUtility.PropertyGetter(typeof(Pawn_GuiltTracker), nameof(Pawn_GuiltTracker.IsGuilty));
+		private static readonly FieldInfo _willField = AccessTools.Field(typeof(Pawn_GuestTracker), nameof(Pawn_GuestTracker.will));
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(instructions);
+#endif
 
-			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Callvirt, SelPawnMethod) };
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+			CodeInstruction[] getPawnInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0), new CodeInstruction(OpCodes.Callvirt, _selPawnMethod) };
+#else
+			CodeInstruction[] getPawnInstructions = [new(OpCodes.Ldarg_0), new(OpCodes.Callvirt, _selPawnMethod)];
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.Calls(instruction, InitiatePrisonBreakMtbDaysMethod)) {
+				if (PatchUtility.Calls(instruction, _initiatePrisonBreakMtbDaysMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, -1f)) {
 						yield return i;
 					}
@@ -76,7 +88,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, IsPrisonBreakingMethod) || PatchUtility.Calls(instruction, GenePreventsPrisonBreakingMethod)) {
+				if (PatchUtility.Calls(instruction, _isPrisonBreakingMethod) || PatchUtility.Calls(instruction, _genePreventsPrisonBreakingMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Meta, getPawnInstructions)) {
 						yield return i;
 					}
@@ -84,7 +96,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, RecruitableMethod)) {
+				if (PatchUtility.Calls(instruction, _recruitableMethod)) {
 					foreach (CodeInstruction i in PatchUtility.OrPawnNotKnown(InformationCategory.Meta, getPawnInstructions)) {
 						yield return i;
 					}
@@ -92,7 +104,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, ResistanceField) || PatchUtility.LoadsField(instruction, MinField) || PatchUtility.LoadsField(instruction, MaxField)) {
+				if (PatchUtility.LoadsField(instruction, _resistanceField) || PatchUtility.LoadsField(instruction, _minField) || PatchUtility.LoadsField(instruction, _maxField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f)) {
 						yield return i;
 					}
@@ -100,7 +112,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, WillField, true)) {
+				if (PatchUtility.LoadsField(instruction, _willField, true)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, 0f, localAddress: true)) {
 						yield return i;
 					}
@@ -109,16 +121,16 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 				}
 
 				// `float.ToString` is only called to insert will and resistance into the UI.
-				if (PatchUtility.Calls(instruction, ToStringMethod)) {
+				if (PatchUtility.Calls(instruction, _toStringMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator, "BR.Unknown")) {
 						yield return i;
 					}
 
-					yield return new CodeInstruction(OpCodes.Call, TranslateSimpleMethod);
+					yield return new CodeInstruction(OpCodes.Call, _translateSimpleMethod);
 					continue;
 				}
 
-				if (PatchUtility.LoadsField(instruction, IdeoForConversionField)) {
+				if (PatchUtility.LoadsField(instruction, _ideoForConversionField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Ideoligion, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -127,7 +139,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 				}
 
 				// Royalty is used here only for royal title resistance offset.
-				if (PatchUtility.LoadsField(instruction, RoyaltyField) || PatchUtility.Calls(instruction, FactionMethod) || PatchUtility.LoadsField(instruction, FinalResistanceInteractionDataField)) {
+				if (PatchUtility.LoadsField(instruction, _royaltyField) || PatchUtility.Calls(instruction, _factionMethod) || PatchUtility.LoadsField(instruction, _finalResistanceInteractionDataField)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfPawnNotKnown(InformationCategory.Meta, getPawnInstructions, generator)) {
 						yield return i;
 					}
@@ -135,7 +147,7 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnVisitorPatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, IsGuiltyMethod)) {
+				if (PatchUtility.Calls(instruction, _isGuiltyMethod)) {
 					foreach (CodeInstruction i in PatchUtility.AndPawnKnown(InformationCategory.Basic, getPawnInstructions)) {
 						yield return i;
 					}

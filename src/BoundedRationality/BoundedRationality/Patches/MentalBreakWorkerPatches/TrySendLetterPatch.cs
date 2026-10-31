@@ -13,6 +13,7 @@ namespace Lakuna.BoundedRationality.Patches.MentalBreakWorkerPatches {
 	[HarmonyPatch(typeof(MentalBreakWorker), "TrySendLetter")]
 	public static class TrySendLetterPatch {
 		[HarmonyPrefix]
-		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn, ControlCategory.Letter);
+		public static bool Prefix(Pawn pawn) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn, ControlCategory.Letter);
 	}
 }

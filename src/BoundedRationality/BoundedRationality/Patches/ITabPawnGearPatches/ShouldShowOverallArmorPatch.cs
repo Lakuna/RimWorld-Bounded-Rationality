@@ -14,10 +14,10 @@ namespace Lakuna.BoundedRationality.Patches.ITabPawnGearPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_Gear), "ShouldShowOverallArmor")]
 	public static class ShouldShowOverallArmorPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(Pawn p, ref bool __result) =>
-#pragma warning restore CA1707
+#pragma warning restore IDE1006
 			__result = __result
-			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, p);
+				&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, p);
 	}
 }

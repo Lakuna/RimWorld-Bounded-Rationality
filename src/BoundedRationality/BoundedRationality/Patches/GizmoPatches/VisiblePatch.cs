@@ -15,24 +15,28 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.GizmoPatches {
 	[HarmonyPatch(typeof(Gizmo), nameof(Gizmo.Visible), MethodType.Getter)]
 	public static class VisiblePatch {
-#if !V1_0
-		private static readonly FieldInfo TrackerField = AccessTools.Field(typeof(PsychicEntropyGizmo), "tracker");
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		private static readonly FieldInfo _deathrestGeneField = AccessTools.Field(typeof(GeneGizmo_DeathrestCapacity), "gene");
 #endif
 
 #if V1_0 || V1_1 || V1_2 || V1_3
-		private static readonly MethodInfo PawnOwnerMethod = PatchUtility.PropertyGetter(typeof(Apparel), nameof(Apparel.Wearer));
+		private static readonly MethodInfo _pawnOwnerMethod = PatchUtility.PropertyGetter(typeof(Apparel), nameof(Apparel.Wearer));
 #else
-		private static readonly FieldInfo ResourceGeneField = AccessTools.Field(typeof(GeneGizmo_Resource), "gene");
+		private static readonly MethodInfo _pawnOwnerMethod = PatchUtility.PropertyGetter(typeof(CompShield), "PawnOwner");
+#endif
 
-		private static readonly MethodInfo PawnOwnerMethod = PatchUtility.PropertyGetter(typeof(CompShield), "PawnOwner");
+#if !(V1_0 || V1_1 || V1_2 || V1_3)
+		private static readonly FieldInfo _resourceGeneField = AccessTools.Field(typeof(GeneGizmo_Resource), "gene");
+#endif
 
-		private static readonly FieldInfo DeathrestGeneField = AccessTools.Field(typeof(GeneGizmo_DeathrestCapacity), "gene");
+#if !V1_0
+		private static readonly FieldInfo _trackerField = AccessTools.Field(typeof(PsychicEntropyGizmo), "tracker");
 #endif
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(Gizmo __instance, ref bool __result) {
-#pragma warning restore CA1707
+#pragma warning restore IDE1006
 			if (__instance is Command_VerbTarget commandVerbTarget) {
 				__result = __result
 					&& (!commandVerbTarget.verb.CasterIsPawn
@@ -42,7 +46,7 @@ namespace Lakuna.BoundedRationality.Patches.GizmoPatches {
 
 			if (__instance is Gizmo_EnergyShieldStatus gizmoEnergyShieldStatus) {
 				__result = __result
-					&& (!(PawnOwnerMethod.Invoke(gizmoEnergyShieldStatus.shield, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
+					&& (!(_pawnOwnerMethod.Invoke(gizmoEnergyShieldStatus.shield, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Gear, pawn, ControlCategory.Control));
 				return;
 			}
@@ -50,7 +54,7 @@ namespace Lakuna.BoundedRationality.Patches.GizmoPatches {
 #if !V1_0
 			if (__instance is PsychicEntropyGizmo psychicEntropyGizmo) {
 				__result = __result
-					&& (!(TrackerField.GetValue(psychicEntropyGizmo) is Pawn_PsychicEntropyTracker pawnPsychicEntropyTracker)
+					&& (!(_trackerField.GetValue(psychicEntropyGizmo) is Pawn_PsychicEntropyTracker pawnPsychicEntropyTracker)
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Abilities, pawnPsychicEntropyTracker.Pawn, ControlCategory.Control));
 				return;
 			}
@@ -76,14 +80,14 @@ namespace Lakuna.BoundedRationality.Patches.GizmoPatches {
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
 			if (__instance is GeneGizmo_Resource geneGizmoResource) {
 				__result = __result
-					&& (!(ResourceGeneField.GetValue(geneGizmoResource) is Gene_Resource geneResource)
+					&& (!(_resourceGeneField.GetValue(geneGizmoResource) is Gene_Resource geneResource)
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, geneResource.pawn, ControlCategory.Control));
 				return;
 			}
 
 			if (__instance is GeneGizmo_DeathrestCapacity geneGizmoDeathrestCapacity) {
 				__result = __result
-					&& (!(DeathrestGeneField.GetValue(geneGizmoDeathrestCapacity) is Gene_Deathrest geneDeathrest)
+					&& (!(_deathrestGeneField.GetValue(geneGizmoDeathrestCapacity) is Gene_Deathrest geneDeathrest)
 					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Personal, geneDeathrest.pawn, ControlCategory.Control));
 			}
 #endif

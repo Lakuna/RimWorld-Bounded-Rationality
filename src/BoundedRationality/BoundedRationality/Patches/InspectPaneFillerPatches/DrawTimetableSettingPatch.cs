@@ -14,6 +14,7 @@ namespace Lakuna.BoundedRationality.Patches.InspectPaneFillerPatches {
 	[HarmonyPatch(typeof(InspectPaneFiller), "DrawTimetableSetting")]
 	public static class DrawTimetableSettingPatch {
 		[HarmonyPrefix]
-		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
+		public static bool Prefix(Pawn pawn) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn);
 	}
 }

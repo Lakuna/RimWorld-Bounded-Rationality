@@ -17,11 +17,13 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.AlertThoughtPatches {
 	[HarmonyPatch(typeof(Alert_Thought), nameof(Alert_Thought.GetReport))]
 	public static class GetReportPatch {
-		private static readonly MethodInfo ThoughtMethod = PatchUtility.PropertyGetter(typeof(Alert_Thought), "Thought");
+		private static readonly MethodInfo _thoughtMethod = PatchUtility.PropertyGetter(typeof(Alert_Thought), "Thought");
 
 		[HarmonyPostfix]
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(Alert_Thought __instance, ref AlertReport __result) {
-			if (BoundedRationalityMod.Settings.NeverHideAlerts || !(ThoughtMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is ThoughtDef thoughtDef)) {
+#pragma warning restore IDE1006
+			if ((BoundedRationalityMod.Settings?.NeverHideAlerts ?? false) || !(_thoughtMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is ThoughtDef thoughtDef)) {
 				return;
 			}
 
@@ -41,9 +43,15 @@ namespace Lakuna.BoundedRationality.Patches.AlertThoughtPatches {
 				pawn.needs.mood.thoughts.GetAllMoodThoughts(thoughts);
 				return thoughts.Where((thought) => thought.def == thoughtDef).Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
 			}).ToList();
-#else
+#elif V1_5 || V1_6
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => {
 				List<Thought> thoughts = new List<Thought>();
+				pawn.needs.mood.thoughts.GetMoodThoughtsFor(thoughtDef, thoughts);
+				return thoughts.Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
+			}).ToList();
+#else
+			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) => {
+				List<Thought> thoughts = [];
 				pawn.needs.mood.thoughts.GetMoodThoughtsFor(thoughtDef, thoughts);
 				return thoughts.Any((thought) => KnowledgeUtility.IsThoughtKnown(thought));
 			}).ToList();

@@ -11,11 +11,10 @@ namespace Lakuna.BoundedRationality.Patches.GizmoGrowthTierPatches {
 	[HarmonyPatch(typeof(Gizmo_GrowthTier), nameof(Gizmo_GrowthTier.Visible), MethodType.Getter)]
 	public static class VisiblePatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(ref bool __result, Pawn ___child) =>
-#pragma warning restore CA1707
-			__result = __result
-			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, ___child, ControlCategory.Control);
+#pragma warning restore IDE1006
+			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Meta, ___child, ControlCategory.Control);
 	}
 }
 #endif

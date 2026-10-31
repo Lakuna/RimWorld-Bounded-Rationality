@@ -13,7 +13,9 @@ namespace Lakuna.BoundedRationality.Patches.PageConfigureStartingPawnsPatches {
 	[HarmonyPatch(typeof(Page_ConfigureStartingPawns), "DrawSkillSummaries")]
 	public static class DrawSkillSummariesPatch {
 		[HarmonyPrefix]
-		public static bool Prefix() => BoundedRationalityMod.Settings.AlwaysKnowStartingColonists || KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, PawnType.Colonist);
+		public static bool Prefix() =>
+			BoundedRationalityMod.Settings.AlwaysKnowStartingColonists
+			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Skills, PawnType.Colonist);
 	}
 }
 #endif

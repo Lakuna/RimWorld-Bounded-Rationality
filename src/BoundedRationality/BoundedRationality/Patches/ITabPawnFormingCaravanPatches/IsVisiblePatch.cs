@@ -15,14 +15,18 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.ITabPawnFormingCaravanPatches {
 	[HarmonyPatch(typeof(ITab_Pawn_FormingCaravan), nameof(ITab_Pawn_FormingCaravan.IsVisible), MethodType.Getter)]
 	public static class IsVisiblePatch {
-		private static readonly MethodInfo SelPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
+		private static readonly MethodInfo _selPawnMethod = PatchUtility.PropertyGetter(typeof(ITab), "SelPawn");
 
 		[HarmonyPostfix]
-#pragma warning disable CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(ITab_Pawn_FormingCaravan __instance, ref bool __result) =>
-#pragma warning restore CA1707
+#pragma warning restore IDE1006
 			__result = __result
-			&& (!(SelPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
-			|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control));
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
+				&& (!(_selPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is Pawn pawn)
+#else
+				&& (_selPawnMethod.Invoke(__instance, MiscellaneousUtility.EmptyArray()) is not Pawn pawn
+#endif
+					|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Basic, pawn, ControlCategory.Control));
 	}
 }

@@ -11,7 +11,9 @@ namespace Lakuna.BoundedRationality.Patches.AlertPsychicBondedSeparatedPatches {
 	[HarmonyPatch(typeof(Alert_PsychicBondedSeparated), nameof(Alert_PsychicBondedSeparated.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(ref AlertReport __result) {
+#pragma warning restore IDE1006
 			__result.culpritsPawns = __result.culpritsPawns?.Where((pawn) =>
 				KnowledgeUtility.IsInformationKnownFor(InformationCategory.Needs, pawn, ControlCategory.Alert)
 				|| KnowledgeUtility.IsInformationKnownFor(InformationCategory.Social, pawn, ControlCategory.Alert)).ToList();

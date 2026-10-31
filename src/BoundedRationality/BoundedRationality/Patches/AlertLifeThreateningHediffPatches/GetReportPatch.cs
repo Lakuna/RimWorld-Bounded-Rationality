@@ -14,7 +14,9 @@ namespace Lakuna.BoundedRationality.Patches.AlertLifeThreateningHediffPatches {
 	[HarmonyPatch(typeof(Alert_LifeThreateningHediff), nameof(Alert_LifeThreateningHediff.GetReport))]
 	public static class GetReportPatch {
 		[HarmonyPostfix]
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(ref AlertReport __result) {
+#pragma warning restore IDE1006
 #if V1_0
 			__result.culprits = __result.culprits?.Where((target) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, target.Thing, ControlCategory.Alert)).ToList();
 #else

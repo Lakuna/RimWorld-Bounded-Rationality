@@ -12,6 +12,7 @@ namespace Lakuna.BoundedRationality.Patches.HediffGiverPatches {
 	[HarmonyPatch(typeof(HediffGiver), "SendLetter")]
 	public static class SendLetterPatch {
 		[HarmonyPrefix]
-		public static bool Prefix(Pawn pawn) => KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, ControlCategory.Letter);
+		public static bool Prefix(Pawn pawn) =>
+			KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, pawn, ControlCategory.Letter);
 	}
 }

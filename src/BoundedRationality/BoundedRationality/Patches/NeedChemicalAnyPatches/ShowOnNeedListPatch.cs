@@ -11,11 +11,10 @@ namespace Lakuna.BoundedRationality.Patches.NeedChemicalAnyPatches {
 	[HarmonyPatch(typeof(Need_Chemical_Any), nameof(Need_Chemical_Any.ShowOnNeedList), MethodType.Getter)]
 	public static class ShowOnNeedListPatch {
 		[HarmonyPostfix]
-#pragma warning disable CA1707
+#pragma warning disable IDE1006 // Harmony injected values require specific names.
 		public static void Postfix(ref bool __result, Pawn ___pawn) =>
-#pragma warning restore CA1707
-			__result = __result
-			&& KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, ___pawn);
+#pragma warning restore IDE1006
+			__result = __result && KnowledgeUtility.IsInformationKnownFor(InformationCategory.Health, ___pawn);
 	}
 }
 #endif

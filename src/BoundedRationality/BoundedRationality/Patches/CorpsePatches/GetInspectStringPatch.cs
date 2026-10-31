@@ -18,26 +18,34 @@ using Verse;
 namespace Lakuna.BoundedRationality.Patches.CorpsePatches {
 	[HarmonyPatch(typeof(Corpse), nameof(Corpse.GetInspectString))]
 	public static class GetInspectStringPatch {
-		private static readonly MethodInfo FactionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
+		private static readonly MethodInfo _factionMethod = PatchUtility.PropertyGetter(typeof(Thing), nameof(Thing.Faction));
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-		private static readonly MethodInfo GetFirstHediffMethod = AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff));
+		private static readonly MethodInfo _getFirstHediffMethod = AccessTools.Method(typeof(HediffSet), nameof(HediffSet.GetFirstHediff));
 #endif
 
-		private static readonly MethodInfo ToStringTicksToPeriodVagueMethod = AccessTools.Method(typeof(GenDate), nameof(GenDate.ToStringTicksToPeriodVague));
+		private static readonly MethodInfo _toStringTicksToPeriodVagueMethod = AccessTools.Method(typeof(GenDate), nameof(GenDate.ToStringTicksToPeriodVague));
 
 		[HarmonyTranspiler]
 		public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions, ILGenerator generator) {
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			if (instructions is null) {
 				throw new ArgumentNullException(nameof(instructions));
 			}
+#else
+			ArgumentNullException.ThrowIfNull(instructions);
+#endif
 
+#if V1_0 || V1_1 || V1_2 || V1_3 || V1_4 || V1_5 || V1_6
 			CodeInstruction[] getThingInstructions = new CodeInstruction[] { new CodeInstruction(OpCodes.Ldarg_0) };
+#else
+			CodeInstruction[] getThingInstructions = [new(OpCodes.Ldarg_0)];
+#endif
 
 			foreach (CodeInstruction instruction in instructions) {
 				yield return instruction;
 
-				if (PatchUtility.Calls(instruction, ToStringTicksToPeriodVagueMethod)) {
+				if (PatchUtility.Calls(instruction, _toStringTicksToPeriodVagueMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfThingNotKnown(InformationCategory.Basic, getThingInstructions, generator, string.Empty)) {
 						yield return i;
 					}
@@ -45,7 +53,7 @@ namespace Lakuna.BoundedRationality.Patches.CorpsePatches {
 					continue;
 				}
 
-				if (PatchUtility.Calls(instruction, FactionMethod)) {
+				if (PatchUtility.Calls(instruction, _factionMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfThingNotKnown(InformationCategory.Basic, getThingInstructions, generator)) {
 						yield return i;
 					}
@@ -54,7 +62,7 @@ namespace Lakuna.BoundedRationality.Patches.CorpsePatches {
 				}
 
 #if !(V1_0 || V1_1 || V1_2 || V1_3)
-				if (PatchUtility.Calls(instruction, GetFirstHediffMethod)) {
+				if (PatchUtility.Calls(instruction, _getFirstHediffMethod)) {
 					foreach (CodeInstruction i in PatchUtility.ReplaceIfThingNotKnown(InformationCategory.Health, getThingInstructions, generator)) {
 						yield return i;
 					}
